@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+        <link href="assets/css/custom.css" rel="stylesheet"></link>
+        <script>
+            $(function () {
+                $("#datepicker").datepicker();
+            });
+        </script>
+
+
+    </h:head>
+    <h:body style="font-size: 12px">
+        <ui:composition template="/index.xhtml">
+            <ui:define name="content">
+                <h:form id="ordenTabla">
+                    <p:dataTable  id="ordenes" style="font-size: 13px" var="producto" value="#{ordi.lista}" rows="5"  reflow="true"
+                                  paginator="true"
+                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  rowsPerPageTemplate="5,10,15">
+                        <p:column headerText="Modelo">
+                            <h:outputText value="#{producto.producto.modelo}" />
+                        </p:column>
+
+                        <p:column headerText="Producto">
+                            <h:outputText value="#{producto.producto.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Cantidad">
+                            <h:outputText value="#{producto.cantidad}" />
+                        </p:column>
+
+                        <p:column headerText="P/U">
+                            <h:outputText value="#{producto.producto.precio}" />
+                        </p:column>
+
+                        <p:column headerText="Total">
+                            <h:outputText value="#{producto.total}" />
+                        </p:column>
+
+                        <p:column headerText="Fecha entrega">
+                            <h:outputText value="#{producto.fechaEntrega}" />
+                        </p:column>       
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="right">
+                <h:form>
+                    <h3>Agrega orden</h3>
+                    <div class="container" style="margin: 2em">
+                        <div class="row" style="margin-top: 0.60em ">
+                            <span >Escoge Producto</span>
+                        </div> 
+                        <div class="row" style="margin-top: 0.60em " >
+                            <h:selectOneMenu  value="#{ordi.selectedProduct}" style="width: 200px" styleClass="form-control"  converter="prConv" valueChangeListener="#{ordi.producComboListener}" >
+                                <f:ajax execute="@this" render="modelo precio cantidad total date"/>
+                                <f:selectItem itemLabel="--.--" itemValue="#{null}" noSelectionOption="true" /> 
+                                <f:selectItems value="#{ordi.productos}" var="ar" itemLabel="#{ar.nombre}" itemValue="#{ar}"/>  
+                            </h:selectOneMenu>
+                        </div>   
+
+                        <div class="row" style="margin-top: 0.60em ">
+                            <span >Modelo</span>
+                        </div> 
+                        <div class="row" style="margin-top: 0.60em " >
+                            <h:inputText id="modelo" value="#{ordi.selectedProduct.modelo}"  pt:type="text" style="width: 200px" styleClass="form-control" disabled="true"/>
+                        </div>  
+
+                        <div class="row" style="margin-top: 0.60em ">
+                            <span >Cantidad</span>
+                        </div> 
+                        <div class="row" style="margin-top: 0.60em " >
+                            <p:inputText id="cantidad" value="#{ordi.orden.cantidad}"  disabled="#{ordi.enabled}" pt:min="0" style="width: 200px" styleClass="form-control" valueChangeListener="#{ordi.cantidadListener}">
+                                <f:ajax execute="@this total" event="keyup" render="total"/>
+                            </p:inputText>
+                        </div>   
+
+                        <div class="row" style="margin-top: 0.60em ">
+                            <span >Precio</span>
+                        </div> 
+                        <div class="row" style="margin-top: 0.60em " >
+                            <h:inputText id="precio" value="#{ordi.selectedProduct.precio}" pt:type="number" style="width: 200px" styleClass="form-control" disabled="true"/>
+                        </div>   
+
+                        <div class="row" style="margin-top: 0.60em ">
+                            <span >Total</span>
+                        </div> 
+                        <div class="row" style="margin-top: 0.60em " >
+                            <h:inputText id="total" value="#{ordi.orden.total}" style="width: 200px" styleClass="form-control" disabled="true"/>
+                        </div>   
+
+                        <div class="row" style="margin-top: 0.60em ">
+                            <span >Fecha Entrega</span>
+                        </div> 
+                        <div class="row" style="margin-top: 0.60em " >
+
+                            <p:calendar value="#{ordi.orden.fechaEntrega}" id="date"/>
+                        </div>   
+
+                        <div class="row" style="margin-top: 1em" >
+                            <p:commandButton  actionListener="#{ordi.addOrder}" value="Agregar"  style="width: 200px ;padding: 0.5em" update="cantidad,total,date" />
+                        </div>   
+                    </div>   
+
+                    <div class="col-lg-3 ds">  
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

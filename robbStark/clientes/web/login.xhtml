@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+        <!-- Bootstrap core CSS -->
+        <link href="assets/css/bootstrap.css" rel="stylesheet"></link>
+        <!--external css-->
+        <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" ></link>
+
+
+        <!-- Custom styles for this template -->
+        <link href="assets/css/style.css" rel="stylesheet"></link>
+        <link href="assets/css/style-responsive.css" rel="stylesheet"></link>
+
+    </h:head>
+    <h:body>
+        <div id="login-page">
+            <div class="container">
+
+                <h:form class="form-login" >
+                    <p:growl autoUpdate="true" showDetail="true"></p:growl>
+                    <h2 class="form-login-heading">inicia sesion</h2>
+                    <div class="login-wrap">
+                        <p:inputText id="loginUser" type="text" value="#{layout.usuario}" styleClass="form-control" placeholder="Usuario" required="true"></p:inputText>
+
+                        <br></br>
+                        <p:password  id="loginPass" value="#{layout.password}" styleClass="form-control"  placeholder="Contraseña" required="true"></p:password>
+
+                        <label class="checkbox">
+                            <span class="pull-right">                
+                                <h:commandLink value="Olvido su contraseña?">
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </span>
+                        </label>
+                        <h:commandButton value="INICIAR SESION" styleClass="btn btn-theme btn-block " action="#{layout.doLogin()}" >
+                            <f:ajax execute="@this loginUser loginPass"/>
+                        </h:commandButton>
+
+                        <hr></hr>
+
+
+                        <div class="registration">
+                            Registrarse<br/>
+                            <h:commandLink value="Crear cuenta">
+                                <f:ajax execute="@this"/>
+                            </h:commandLink>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal -->
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Forgot Password ?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Enter your e-mail address below to reset your password.</p>
+                                    <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix"></input>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                                    <button class="btn btn-theme" type="button">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- modal -->
+
+                </h:form>	  	
+
+            </div>
+        </div>
+
+    </h:body>
+</html>
+
