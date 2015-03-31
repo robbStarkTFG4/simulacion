@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+    </h:head>
+    <h:body style="font-size: 90%">
+        <ui:composition template="/productos.xhtml">
+            <ui:define name="overrideContent">      
+                <div style="margin-top: 25px">
+                    <div class="col-md-8">
+                        <p:dataGrid var="product"   value="#{catalogo.productsList}" columns="3" layout="grid"
+                                    rows="12" paginator="true" id="productsGrid"
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="6,12,16">
+
+                            <f:facet name="header">
+                                Lista Productos
+                            </f:facet>
+
+                            <p:panel header="#{product.nombre}" style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+
+
+                                    <h:outputText value="#{product.modelo}" />
+
+                                    <p:commandLink title="View Detail">
+                                        <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                                        <f:setPropertyActionListener value="#{product}" target="#{catalogo.current}" />
+                                    </p:commandLink>
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </p:dataGrid>
+
+                    </div>
+                </div>
+            </ui:define>
+
+            <ui:define name="overrideContentRight">
+                <div style="font-size: 1.5em">
+                    dasdasdasdas
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

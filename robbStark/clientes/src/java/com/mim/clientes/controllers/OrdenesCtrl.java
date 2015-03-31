@@ -5,8 +5,8 @@
  */
 package com.mim.clientes.controllers;
 
-import com.mim.clientes.models.Ordenes;
-import com.mim.clientes.models.Producto;
+import com.mim.clientes.models.Tblordencliente;
+import com.mim.clientes.models.Tblproducto;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,38 +27,25 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class OrdenesCtrl implements Serializable {
 
-    private List<Ordenes> lista;
-    private List<Producto> productos;
-    private Producto selectedProduct;
-    private Ordenes orden = new Ordenes();
+    private List<Tblordencliente> lista;
+    private List<Tblproducto> productos;
+    private Tblproducto selectedProduct;
+    private Tblordencliente orden = new Tblordencliente();
     private Boolean enabled = true;
     private String dateMock;
 
     @PostConstruct
     private void init() {
-        lista = new ArrayList<>();
-        lista.add(new Ordenes(new Producto("bottella chica", 7.0, "abc"), 11));
-        lista.add(new Ordenes(new Producto("bottella mediana", 12.0, "abcdef"), 25));
-        lista.add(new Ordenes(new Producto("bottella grande", 16.0, "abcertre"), 32));
 
-        for (Ordenes orden : lista) {
-            orden.setTotal(orden.getProducto().getPrecio() * orden.getCantidad());
-            orden.setFechaEntrega(new Date());
-        }
-
-        productos = new ArrayList<>();
-        productos.add(new Producto("bottella chica", 7.0, "8TY234"));
-        productos.add(new Producto("bottella mediana", 12.0, "abcdef"));
-        productos.add(new Producto("bottella grande", 18.0, "abcdef57"));
     }
 
     public void producComboListener(ValueChangeEvent e) {
         //System.out.println("hola");
         orden.setCantidad(0);
-        orden.setTotal(0.0);
+        //orden.setTotal(0.0);
         if (e != null) {
             if (e.getNewValue() != null) {
-                Producto temp = (Producto) e.getNewValue();
+                Tblproducto temp = (Tblproducto) e.getNewValue();
                 this.selectedProduct = temp;
                 enabled = false;
             } else {
@@ -76,7 +63,7 @@ public class OrdenesCtrl implements Serializable {
                     Integer temp = (Integer) e.getNewValue();
                     orden.setCantidad(temp);
                     if (selectedProduct != null) {
-                        orden.setTotal(temp * selectedProduct.getPrecio());
+                        //orden.setTotal(temp * selectedProduct.getPrecio());
                     }
                     System.out.println("cantidad asignada: " + temp);
                 } catch (NumberFormatException ex) {
@@ -96,12 +83,12 @@ public class OrdenesCtrl implements Serializable {
 
         try {
             if (orden.getCantidad() != 0) {
-               
-                orden.setProducto(selectedProduct);
+
+                orden.setTblProductoidTblProducto(selectedProduct);
                 lista.add(clone(orden));
 
                 RequestContext.getCurrentInstance().update("ordenTabla:ordenes");
-                orden = new Ordenes();
+                orden = new Tblordencliente();
                 dateMock = null;
             } else {
                 //notifica sobre cantidad
@@ -112,46 +99,45 @@ public class OrdenesCtrl implements Serializable {
         }
     }
 
-    private Ordenes clone(Ordenes orden) {
-        Ordenes or = new Ordenes();
+    private Tblordencliente clone(Tblordencliente orden) {
+        Tblordencliente or = new Tblordencliente();
         or.setCantidad(orden.getCantidad());
-        or.setFechaEntrega(orden.getFechaEntrega());
-        or.setProducto(orden.getProducto());
-        or.setTotal(orden.getTotal());
+        or.setFechadeentrega(orden.getFechadeentrega());
+        or.setTblProductoidTblProducto(orden.getTblProductoidTblProducto());
+        //or.setTotal(orden.getTotal());
         return or;
     }
 
     // getters-setters  "boiler plate"
-
-    public List<Ordenes> getLista() {
+    public List<Tblordencliente> getLista() {
         return lista;
     }
 
-    public void setLista(List<Ordenes> lista) {
+    public void setLista(List<Tblordencliente> lista) {
         this.lista = lista;
     }
 
-    public List<Producto> getProductos() {
+    public List<Tblproducto> getProductos() {
         return productos;
     }
 
-    public void setProductos(List<Producto> productos) {
+    public void setProductos(List<Tblproducto> productos) {
         this.productos = productos;
     }
 
-    public Producto getSelectedProduct() {
+    public Tblproducto getSelectedProduct() {
         return selectedProduct;
     }
 
-    public void setSelectedProduct(Producto selectedProduct) {
+    public void setSelectedProduct(Tblproducto selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
 
-    public Ordenes getOrden() {
+    public Tblordencliente getOrden() {
         return orden;
     }
 
-    public void setOrden(Ordenes orden) {
+    public void setOrden(Tblordencliente orden) {
         this.orden = orden;
     }
 

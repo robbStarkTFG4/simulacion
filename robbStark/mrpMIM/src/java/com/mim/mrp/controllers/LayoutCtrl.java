@@ -5,7 +5,10 @@
  */
 package com.mim.mrp.controllers;
 
+import com.mim.mrp.ejb.TblusuariosFacade;
+import com.mim.mrp.models.Tblusuarios;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -18,9 +21,13 @@ import javax.inject.Named;
 @SessionScoped
 public class LayoutCtrl implements Serializable {
 
+    @EJB
+    TblusuariosFacade usrFacade;
+
     private String unblockPassword;
     private String usuario;
     private String password;
+    private Tblusuarios currentUser;
 
     public void gotoLockScreen() {
         System.out.println("lockScreen");
@@ -52,7 +59,14 @@ public class LayoutCtrl implements Serializable {
             System.out.println("password hello");
             return null;
         }
-        return "testTemplate.xhtml?faces-redirect=true";
+
+        currentUser = usrFacade.findUser(usuario, password);
+        if (currentUser != null) {
+            return "testTemplate.xhtml?faces-redirect=true";
+
+        } else {
+            return null;
+        }
     }
 
     //Getters/Setters
@@ -78,5 +92,13 @@ public class LayoutCtrl implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Tblusuarios getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(Tblusuarios currentUser) {
+        this.currentUser = currentUser;
     }
 }

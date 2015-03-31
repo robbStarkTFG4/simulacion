@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+    </h:head>
+    <h:body style="font-size: 60%">
+        <ui:composition template="/productos.xhtml">
+            <ui:define name="overrideContent">      
+                <h:form  enctype="multipart/form-data">
+                    <div style="margin-top: 25px; font-size: 1em">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="nompreProduct">Nombre</label>
+                                <h:inputText styleClass="form-control" value="#{productForm.newbi.nombre}" id="nompreProduct" pt:placeholder="Escribe Nombre" required="true"></h:inputText>                 
+                            </div>
+                            <div class="form-group">
+                                <label for="modeloProduct">Modelo</label>
+                                <h:inputText styleClass="form-control" value="#{productForm.newbi.modelo}" id="modeloProduct" pt:placeholder="Escribe Modelo" required="true"></h:inputText>     
+                            </div>
+                            <div class="form-group">
+                                <label for="precioProduct">Precio</label>
+                                <h:inputText styleClass="form-control" id="precioProduct" value="#{productForm.newbi.precio}" pt:placeholder="Escribe Precio" required="true"></h:inputText>     
+                            </div>
+                            <div class="form-group">
+                                <label for="uploadImage">Subir imagen</label>
+                                <h:inputFile value="#{productForm.file}" required="true" />
+                                <p class="help-block">Selecciona imagen del producto</p>
+                            </div>
+
+                            <p:commandButton styleClass="btn btn-default" action="#{productForm.upload()}" ajax="false" process="@form" value="Guardar"/>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="overrideContentRight">
+                <div style="font-size: 1.5em">
+                    dasdasdasdas
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

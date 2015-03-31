@@ -6,7 +6,8 @@
 package com.mim.clientes.util.converters;
 
 import com.mim.clientes.controllers.OrdenesCtrl;
-import com.mim.clientes.models.Producto;
+import com.mim.clientes.models.Tblproducto;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -29,7 +30,7 @@ public class ProductConverter implements Converter {
             return null;
         }
         try {
-            for (Producto li : orden.getProductos()) {
+            for (Tblproducto li : orden.getProductos()) {
                 if (li.getNombre().equals(value)) {
                     return li;
                 }
@@ -45,7 +46,7 @@ public class ProductConverter implements Converter {
         if (value == null || value.equals("")) {
             return "";
         } else {
-            Producto type = (Producto) value;
+            Tblproducto type = (Tblproducto) value;
             return type.getNombre();
         }
     }
