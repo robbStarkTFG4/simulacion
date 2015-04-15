@@ -26,11 +26,11 @@
                                   paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                   rowsPerPageTemplate="5,10,15">
                         <p:column headerText="Modelo">
-                            <h:outputText value="#{producto.producto.modelo}" />
+                            <h:outputText value="#{producto.tblProductoidTblProducto.modelo}" />
                         </p:column>
 
                         <p:column headerText="Producto">
-                            <h:outputText value="#{producto.producto.nombre}" />
+                            <h:outputText value="#{producto.tblProductoidTblProducto.nombre}" />
                         </p:column>
 
                         <p:column headerText="Cantidad">
@@ -38,15 +38,15 @@
                         </p:column>
 
                         <p:column headerText="P/U">
-                            <h:outputText value="#{producto.producto.precio}" />
+                            <h:outputText value="#{producto.tblProductoidTblProducto.precio}" />
                         </p:column>
 
                         <p:column headerText="Total">
-                            <h:outputText value="#{producto.total}" />
+                            <h:outputText value="#{producto.monto}" />
                         </p:column>
 
                         <p:column headerText="Fecha entrega">
-                            <h:outputText value="#{producto.fechaEntrega}" />
+                            <h:outputText value="#{producto.fechadeentrega}" />
                         </p:column>       
                     </p:dataTable>
                 </h:form>
@@ -94,7 +94,7 @@
                             <span >Total</span>
                         </div> 
                         <div class="row" style="margin-top: 0.60em " >
-                            <h:inputText id="total" value="#{ordi.orden.total}" style="width: 200px" styleClass="form-control" disabled="true"/>
+                            <h:inputText id="total" value="#{ordi.orden.monto}" style="width: 200px" styleClass="form-control" disabled="true"/>
                         </div>   
 
                         <div class="row" style="margin-top: 0.60em ">
@@ -102,7 +102,7 @@
                         </div> 
                         <div class="row" style="margin-top: 0.60em " >
 
-                            <p:calendar value="#{ordi.orden.fechaEntrega}" id="date"/>
+                            <p:calendar value="#{ordi.orden.fechadeentrega}" id="date"/>
                         </div>   
 
                         <div class="row" style="margin-top: 1em" >

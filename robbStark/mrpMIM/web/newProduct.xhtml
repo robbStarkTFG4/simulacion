@@ -9,12 +9,15 @@
     <h:head>
         <title>MRP</title>
     </h:head>
-    <h:body style="font-size: 60%">
+    <h:body style="font-size: 90%">
         <ui:composition template="/productos.xhtml">
             <ui:define name="overrideContent">      
                 <h:form  enctype="multipart/form-data">
-                    <div style="margin-top: 25px; font-size: 1em">
+                    <div style="margin-top: 25px; font-size: 1.3em">
                         <div class="col-md-8">
+                            <div class="form-group">
+                                <p:messages showDetail="true" autoUpdate="true"/>
+                            </div>
                             <div class="form-group">
                                 <label for="nompreProduct">Nombre</label>
                                 <h:inputText styleClass="form-control" value="#{productForm.newbi.nombre}" id="nompreProduct" pt:placeholder="Escribe Nombre" required="true"></h:inputText>                 
@@ -41,7 +44,7 @@
 
             <ui:define name="overrideContentRight">
                 <div style="font-size: 1.5em">
-                    dasdasdasdas
+                   
                 </div>
             </ui:define>
         </ui:composition>

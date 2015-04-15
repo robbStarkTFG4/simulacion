@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TblPlanProducctionFacade extends AbstractFacade<TblPlanProducction> {
+
     @PersistenceContext(unitName = "mrpMIMPU")
     private EntityManager em;
 
@@ -27,5 +28,11 @@ public class TblPlanProducctionFacade extends AbstractFacade<TblPlanProducction>
     public TblPlanProducctionFacade() {
         super(TblPlanProducction.class);
     }
-    
+
+    public int createMPS(TblPlanProducction produccion) {
+        em.persist(produccion);
+        em.flush();
+        return produccion.getIdtblPlanProducction();
+    }
+
 }

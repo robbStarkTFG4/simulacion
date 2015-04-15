@@ -34,11 +34,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tblclientes.findAll", query = "SELECT t FROM Tblclientes t"),
     @NamedQuery(name = "Tblclientes.findByIdTblClientes", query = "SELECT t FROM Tblclientes t WHERE t.idTblClientes = :idTblClientes"),
     @NamedQuery(name = "Tblclientes.findByNombre", query = "SELECT t FROM Tblclientes t WHERE t.nombre = :nombre"),
-    @NamedQuery(name = "Tblclientes.findByNumerocliente", query = "SELECT t FROM Tblclientes t WHERE t.numerocliente = :numerocliente"),
+    @NamedQuery(name = "Tblclientes.findByUsuario", query = "SELECT t FROM Tblclientes t WHERE t.usuario = :usuario"),
     @NamedQuery(name = "Tblclientes.findByCorreo", query = "SELECT t FROM Tblclientes t WHERE t.correo = :correo"),
     @NamedQuery(name = "Tblclientes.findByTelefono", query = "SELECT t FROM Tblclientes t WHERE t.telefono = :telefono"),
     @NamedQuery(name = "Tblclientes.findByApelidoPaterno", query = "SELECT t FROM Tblclientes t WHERE t.apelidoPaterno = :apelidoPaterno"),
-    @NamedQuery(name = "Tblclientes.findByApellidoMaterno", query = "SELECT t FROM Tblclientes t WHERE t.apellidoMaterno = :apellidoMaterno")})
+    @NamedQuery(name = "Tblclientes.findByApellidoMaterno", query = "SELECT t FROM Tblclientes t WHERE t.apellidoMaterno = :apellidoMaterno"),
+    @NamedQuery(name = "Tblclientes.findByContrase\u00f1a", query = "SELECT t FROM Tblclientes t WHERE t.contrase\u00f1a = :contrase\u00f1a")})
 public class Tblclientes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,8 +55,8 @@ public class Tblclientes implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "Numero cliente")
-    private String numerocliente;
+    @Column(name = "usuario")
+    private String usuario;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -76,6 +77,11 @@ public class Tblclientes implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "apellidoMaterno")
     private String apellidoMaterno;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "contrase\u00f1a")
+    private String contraseña;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTblClientes")
     private List<Tblordencliente> tblordenclienteList;
 
@@ -86,14 +92,15 @@ public class Tblclientes implements Serializable {
         this.idTblClientes = idTblClientes;
     }
 
-    public Tblclientes(Integer idTblClientes, String nombre, String numerocliente, String correo, String telefono, String apelidoPaterno, String apellidoMaterno) {
+    public Tblclientes(Integer idTblClientes, String nombre, String usuario, String correo, String telefono, String apelidoPaterno, String apellidoMaterno, String contraseña) {
         this.idTblClientes = idTblClientes;
         this.nombre = nombre;
-        this.numerocliente = numerocliente;
+        this.usuario = usuario;
         this.correo = correo;
         this.telefono = telefono;
         this.apelidoPaterno = apelidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.contraseña = contraseña;
     }
 
     public Integer getIdTblClientes() {
@@ -112,12 +119,12 @@ public class Tblclientes implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getNumerocliente() {
-        return numerocliente;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setNumerocliente(String numerocliente) {
-        this.numerocliente = numerocliente;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getCorreo() {
@@ -150,6 +157,14 @@ public class Tblclientes implements Serializable {
 
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     @XmlTransient

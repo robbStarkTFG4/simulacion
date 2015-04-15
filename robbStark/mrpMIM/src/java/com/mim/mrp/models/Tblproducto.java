@@ -35,11 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tblproducto.findByIdTblProducto", query = "SELECT t FROM Tblproducto t WHERE t.idTblProducto = :idTblProducto"),
     @NamedQuery(name = "Tblproducto.findByNombre", query = "SELECT t FROM Tblproducto t WHERE t.nombre = :nombre"),
     @NamedQuery(name = "Tblproducto.findByPrecio", query = "SELECT t FROM Tblproducto t WHERE t.precio = :precio"),
-    @NamedQuery(name = "Tblproducto.findByModelo", query = "SELECT t FROM Tblproducto t WHERE t.modelo = :modelo")})
+    @NamedQuery(name = "Tblproducto.findByModelo", query = "SELECT t FROM Tblproducto t WHERE t.modelo = :modelo"),
+    @NamedQuery(name = "Tblproducto.findByImagen", query = "SELECT t FROM Tblproducto t WHERE t.imagen = :imagen")})
 public class Tblproducto implements Serializable {
-    @Size(max = 120)
-    @Column(name = "imagen")
-    private String imagen;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,14 +51,16 @@ public class Tblproducto implements Serializable {
     private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "precio")
-    private String precio;
+    private double precio;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "modelo")
     private String modelo;
+    @Size(max = 120)
+    @Column(name = "imagen")
+    private String imagen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblProductoidTblProducto")
     private List<TblOrdenTrabajo> tblOrdenTrabajoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblProductoidTblProducto")
@@ -75,7 +75,7 @@ public class Tblproducto implements Serializable {
         this.idTblProducto = idTblProducto;
     }
 
-    public Tblproducto(Integer idTblProducto, String nombre, String precio, String modelo) {
+    public Tblproducto(Integer idTblProducto, String nombre, double precio, String modelo) {
         this.idTblProducto = idTblProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -98,11 +98,11 @@ public class Tblproducto implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
@@ -112,6 +112,14 @@ public class Tblproducto implements Serializable {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @XmlTransient
@@ -164,14 +172,6 @@ public class Tblproducto implements Serializable {
     @Override
     public String toString() {
         return "com.mim.mrp.models.Tblproducto[ idTblProducto=" + idTblProducto + " ]";
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
     
 }

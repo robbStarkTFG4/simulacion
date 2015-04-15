@@ -55,12 +55,12 @@ public class Tblordencliente implements Serializable {
     private int cantidad;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Fecha de entrega")
+    @Column(name = "Fecha_de_entrega")
     @Temporal(TemporalType.DATE)
     private Date fechadeentrega;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Fecha captura")
+    @Column(name = "Fecha_captura")
     @Temporal(TemporalType.DATE)
     private Date fechacaptura;
     @Basic(optional = false)
@@ -75,6 +75,8 @@ public class Tblordencliente implements Serializable {
     private List<TblPlanProducction> tblPlanProducctionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblordencliente")
     private List<TblOrdencompra> tblOrdencompraList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenclienteidTblOrdencliente")
+    private List<TblAlmacen> tblAlmacenList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenclienteidTblOrdencliente")
     private List<TblOrdenTrabajo> tblOrdenTrabajoList;
     @JoinColumn(name = "idTblClientes", referencedColumnName = "idTblClientes")
@@ -164,6 +166,15 @@ public class Tblordencliente implements Serializable {
 
     public void setTblOrdencompraList(List<TblOrdencompra> tblOrdencompraList) {
         this.tblOrdencompraList = tblOrdencompraList;
+    }
+
+    @XmlTransient
+    public List<TblAlmacen> getTblAlmacenList() {
+        return tblAlmacenList;
+    }
+
+    public void setTblAlmacenList(List<TblAlmacen> tblAlmacenList) {
+        this.tblAlmacenList = tblAlmacenList;
     }
 
     @XmlTransient

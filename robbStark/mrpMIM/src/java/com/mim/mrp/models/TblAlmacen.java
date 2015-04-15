@@ -13,11 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TblAlmacen.findAll", query = "SELECT t FROM TblAlmacen t"),
     @NamedQuery(name = "TblAlmacen.findByIdtblAlmacen", query = "SELECT t FROM TblAlmacen t WHERE t.idtblAlmacen = :idtblAlmacen"),
-    @NamedQuery(name = "TblAlmacen.findByCantidad", query = "SELECT t FROM TblAlmacen t WHERE t.cantidad = :cantidad")})
+    @NamedQuery(name = "TblAlmacen.findByCantidad", query = "SELECT t FROM TblAlmacen t WHERE t.cantidad = :cantidad"),
+    @NamedQuery(name = "TblAlmacen.findByDescripcion", query = "SELECT t FROM TblAlmacen t WHERE t.descripcion = :descripcion")})
 public class TblAlmacen implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,27 +42,34 @@ public class TblAlmacen implements Serializable {
     private Integer idtblAlmacen;
     @Column(name = "cantidad")
     private Integer cantidad;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 600)
+    @Column(name = "descripcion")
+    private String descripcion;
     @JoinColumn(name = "tbl_almacen_actividad_idtbl_almacen_actividad", referencedColumnName = "idtbl_almacen_actividad")
     @ManyToOne(optional = false)
     private TblAlmacenActividad tblAlmacenActividadIdtblAlmacenActividad;
     @JoinColumn(name = "TblMaterial_idTblMateria", referencedColumnName = "idTblMateria")
     @ManyToOne(optional = false)
     private Tblmaterial tblMaterialidTblMateria;
-    @JoinColumns({
-        @JoinColumn(name = "tbl_ordenCompra_idtbl_ordenCompra", referencedColumnName = "idtbl_ordenCompra"),
-        @JoinColumn(name = "tbl_ordenCompra_TblMaterial_idTblMateria", referencedColumnName = "TblMaterial_idTblMateria"),
-        @JoinColumn(name = "tbl_ordenCompra_TblOrdencliente_idTblOrdencliente", referencedColumnName = "TblOrdencliente_idTblOrdencliente")})
+    @JoinColumn(name = "TblOrdencliente_idTblOrdencliente", referencedColumnName = "idTblOrdencliente")
     @ManyToOne(optional = false)
-    private TblOrdencompra tblOrdencompra;
-    @JoinColumn(name = "tbl_orden_trabajo_idtbl_orden_trabajo", referencedColumnName = "idtbl_orden_trabajo")
+    private Tblordencliente tblOrdenclienteidTblOrdencliente;
+    @JoinColumn(name = "tbl_locasion_idtbl_locasion", referencedColumnName = "idtbl_locasion")
     @ManyToOne(optional = false)
-    private TblOrdenTrabajo tblOrdenTrabajoIdtblOrdenTrabajo;
+    private TblLocasion tblLocasionIdtblLocasion;
 
     public TblAlmacen() {
     }
 
     public TblAlmacen(Integer idtblAlmacen) {
         this.idtblAlmacen = idtblAlmacen;
+    }
+
+    public TblAlmacen(Integer idtblAlmacen, String descripcion) {
+        this.idtblAlmacen = idtblAlmacen;
+        this.descripcion = descripcion;
     }
 
     public Integer getIdtblAlmacen() {
@@ -79,6 +88,14 @@ public class TblAlmacen implements Serializable {
         this.cantidad = cantidad;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public TblAlmacenActividad getTblAlmacenActividadIdtblAlmacenActividad() {
         return tblAlmacenActividadIdtblAlmacenActividad;
     }
@@ -95,20 +112,20 @@ public class TblAlmacen implements Serializable {
         this.tblMaterialidTblMateria = tblMaterialidTblMateria;
     }
 
-    public TblOrdencompra getTblOrdencompra() {
-        return tblOrdencompra;
+    public Tblordencliente getTblOrdenclienteidTblOrdencliente() {
+        return tblOrdenclienteidTblOrdencliente;
     }
 
-    public void setTblOrdencompra(TblOrdencompra tblOrdencompra) {
-        this.tblOrdencompra = tblOrdencompra;
+    public void setTblOrdenclienteidTblOrdencliente(Tblordencliente tblOrdenclienteidTblOrdencliente) {
+        this.tblOrdenclienteidTblOrdencliente = tblOrdenclienteidTblOrdencliente;
     }
 
-    public TblOrdenTrabajo getTblOrdenTrabajoIdtblOrdenTrabajo() {
-        return tblOrdenTrabajoIdtblOrdenTrabajo;
+    public TblLocasion getTblLocasionIdtblLocasion() {
+        return tblLocasionIdtblLocasion;
     }
 
-    public void setTblOrdenTrabajoIdtblOrdenTrabajo(TblOrdenTrabajo tblOrdenTrabajoIdtblOrdenTrabajo) {
-        this.tblOrdenTrabajoIdtblOrdenTrabajo = tblOrdenTrabajoIdtblOrdenTrabajo;
+    public void setTblLocasionIdtblLocasion(TblLocasion tblLocasionIdtblLocasion) {
+        this.tblLocasionIdtblLocasion = tblLocasionIdtblLocasion;
     }
 
     @Override

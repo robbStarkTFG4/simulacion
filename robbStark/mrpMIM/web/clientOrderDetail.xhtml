@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+    </h:head>
+    <h:body  style="font-size: 90%">
+        <ui:composition template="/index.xhtml">
+            <ui:define name="content">
+                <h:form id="ord">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>Orden Cliente</h2>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8" style="font-size: 1.3em;margin-top: 10px ">
+                                <p:dataTable var="dtl" paginator="true" rows="3"  id="tablaMat" value="#{ordClDtl.ordenesCompra}">
+
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{dtl.tblmaterial.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="#{dtl.cantidad}" />
+                                    </p:column>
+
+                                    <p:column headerText="Demanda">
+                                        <h:outputText value="#{dtl.demanda}" />
+                                    </p:column>
+
+                                    <p:column headerText="Proveedor">
+                                        <h:outputText value="#{dtl.tblProveedoresIdtblProveedores.empresa}" />                   
+                                    </p:column>
+
+                                    <p:column headerText="P/U">
+                                        <h:outputText value="#{dtl.pu}" />
+                                    </p:column>
+                                    <p:column headerText="Monto">
+                                        <h:outputText value="#{dtl.monto}" />
+                                    </p:column>
+
+                                    <p:column headerText="Fecha">
+                                        <h:outputText value="#{dtl.fechaEntrega}" />
+                                    </p:column>
+
+                                    <p:column style="width: 8%">
+                                        <p:commandButton icon="ui-icon-info"   actionListener="#{ordClDtl.chooseProvListener}" oncomplete="PF('dlg2').show();">
+                                            <f:attribute name="ordenCompra" value="#{dtl}"/>                    
+                                        </p:commandButton>
+                                    </p:column>
+
+                                    <p:column style="width: 8%">
+                                        <p:commandButton icon="ui-icon-search"   >
+                                            <f:attribute name="ordenCompra" value="#{dtl}"/>
+                                        </p:commandButton>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size: 1.3em;margin-top: 10px ">
+
+                            <div class="col-md-4">
+                                <p:panel  header="Detalles"  style="margin:3px">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label for="ordenId">#Orden</label>
+                                            <h:outputText id="ordenId" style="margin-left: 10px; font-weight: bold" value="#{ordHolder.currentClientOrder.idTblOrdencliente}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label for="cantidadDl">Cantidad</label>
+                                            <h:outputText id="cantidadDl" style="margin-left: 10px; font-weight: bold" value="#{ordHolder.currentClientOrder.cantidad}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label for="fechaSl">Fecha Solicitud</label>
+                                            <h:outputText id="fechaSl" style="margin-left: 10px; font-weight: bold" value="#{ordHolder.currentClientOrder.fechacaptura}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label for="fechaE">Fecha Entrega</label>
+                                            <h:outputText id="fechaE" style="margin-left: 10px; font-weight: bold" value="#{ordHolder.currentClientOrder.fechadeentrega}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label for="montoE">Monto</label>
+                                            <h:outputText id="montoE" style="margin-left: 10px; font-weight: bold" value="#{ordHolder.currentClientOrder.monto}"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </div>
+
+                            <div class="col-md-4">
+                                <p:panel  header="Compras"  style="margin:3px;font-size: 1.5em">
+                                    <p:commandButton value="Generar" styleClass="btn btn-primary" action="#{ordClDtl.generarListener}"/>
+                                </p:panel>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p:dialog id="dialogito"  widgetVar="dlg2" modal="true" height="300" width="420">
+                        <p:ajax event="close" update="tablaMat" listener="#{ordClDtl.handleClose}" />
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <span>Escoge Proveedor</span>
+                                </div>
+                                <div class="col-md-4" style="margin-top: 5px">
+                                    <h:selectOneMenu value="#{ordClDtl.acceptedProv}" valueChangeListener="#{ordClDtl.provListener}" style="width: 75%" converter="provConverter">
+                                        <f:ajax execute="@this" render="precio dias"/>
+                                        <f:selectItem itemLabel="--.--" itemValue="#{null}" noSelectionOption="true" /> 
+                                        <f:selectItems value="#{ordClDtl.provList}" var="pro" itemLabel="#{pro.empresa}" itemValue="#{pro}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-md-2">
+                                    <h3><p:outputLabel  id="precio" value="#{ordClDtl.precio}"/></h3>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-md-2">
+                                    Dias: <h3><p:outputLabel  id="dias" value="#{ordClDtl.tiempoEntrega}"/></h3>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-md-2">
+                                    <p:commandButton value="aceptar" styleClass="btn btn-primary" onclick="PF('dlg2').close();" actionListener="#{ordClDtl.aceptarProveedor}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:define>
+
+            <ui:define name="right">
+                <h:form>
+                    <div style="font-size: 1.3em">
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-3">
+                                <h2>Menu</h2>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.1em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="una opcion" >
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

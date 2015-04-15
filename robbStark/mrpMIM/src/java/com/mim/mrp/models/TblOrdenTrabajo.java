@@ -61,8 +61,6 @@ public class TblOrdenTrabajo implements Serializable {
     private Integer estatus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenTrabajoIdtblOrdenTrabajo")
     private List<TblPlanProducction> tblPlanProducctionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenTrabajoIdtblOrdenTrabajo")
-    private List<TblAlmacen> tblAlmacenList;
     @JoinColumn(name = "TblUsuarios_idTblUsuarios", referencedColumnName = "idTblUsuarios")
     @ManyToOne(optional = false)
     private Tblusuarios tblUsuariosidTblUsuarios;
@@ -125,15 +123,6 @@ public class TblOrdenTrabajo implements Serializable {
 
     public void setTblPlanProducctionList(List<TblPlanProducction> tblPlanProducctionList) {
         this.tblPlanProducctionList = tblPlanProducctionList;
-    }
-
-    @XmlTransient
-    public List<TblAlmacen> getTblAlmacenList() {
-        return tblAlmacenList;
-    }
-
-    public void setTblAlmacenList(List<TblAlmacen> tblAlmacenList) {
-        this.tblAlmacenList = tblAlmacenList;
     }
 
     public Tblusuarios getTblUsuariosidTblUsuarios() {

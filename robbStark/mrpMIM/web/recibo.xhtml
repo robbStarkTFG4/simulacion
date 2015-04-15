@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+    </h:head>
+    <h:body  style="font-size: 90%">
+        <ui:composition template="/index.xhtml">
+            <ui:define name="content">
+                <h:form >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>Recibo</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8" style="font-size: 1.3em ">
+                                <p:dataTable id="recibitos" var="car" value="#{recibo.ordenes}">
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{car.tblOrdencompraPK.idtblordenCompra}" />
+                                    </p:column>
+
+                                    <p:column headerText="nombre material">
+                                        <h:outputText value="#{car.tblmaterial.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="#{car.demanda}" />
+                                    </p:column>
+
+                                    <p:column headerText="Proveedor">
+                                        <h:outputText value="#{car.tblProveedoresIdtblProveedores.empresa}" />
+                                    </p:column>
+
+                                    <p:column headerText="Fecha Entrega">
+                                        <h:outputText value="#{car.fechaEntrega}" />
+                                    </p:column>
+
+                                    <p:column headerText="clase">
+                                        <h:outputText value="#{car.clase}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:commandButton value="recibido" actionListener="#{recibo.marcar}" update="recibitos">
+                                            <f:attribute value="#{car}" name="mr"/>
+                                            <p:confirm header="Confirmar" message="Seguro que deseas enviar a inspeccion?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="right">
+                <h:form>
+                    <div style="font-size: 1.3em">
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-3">
+                                <h2>Menu</h2>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.1em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="una opcion" >
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -5,10 +5,14 @@
  */
 package com.mim.mrp.ejb;
 
+import com.mim.mrp.models.TblPrecioMaterial;
 import com.mim.mrp.models.TblProveedores;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -16,6 +20,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TblProveedoresFacade extends AbstractFacade<TblProveedores> {
+
     @PersistenceContext(unitName = "mrpMIMPU")
     private EntityManager em;
 
@@ -27,5 +32,26 @@ public class TblProveedoresFacade extends AbstractFacade<TblProveedores> {
     public TblProveedoresFacade() {
         super(TblProveedores.class);
     }
-    
+
+    public List<TblProveedores> findAll(Integer idTblMateria) {
+        TypedQuery<TblPrecioMaterial> query = em.createQuery("SELECT c FROM TblPrecioMaterial c WHERE c.tblMaterialidTblMateria.idTblMateria = :id", TblPrecioMaterial.class);
+        query.setParameter("id", idTblMateria);
+        try {
+            List<TblPrecioMaterial> temp = query.getResultList();
+            List<TblProveedores> lista = new ArrayList<>();
+            for (TblPrecioMaterial mtl : temp) {
+                lista.add(mtl.getTblProveedoresIdtblProveedores());
+            }
+            System.out.println("Los Proveedores que ofrecen el producto: ");
+            for (TblProveedores pr : lista) {
+                System.out.println("proveedor: " + pr.getEmpresa());
+            }
+            return lista;
+        } catch (Exception e) {
+            System.out.println("something went wrong!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
 }

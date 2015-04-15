@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TblProveedores.findByRazonSocial", query = "SELECT t FROM TblProveedores t WHERE t.razonSocial = :razonSocial"),
     @NamedQuery(name = "TblProveedores.findByRfc", query = "SELECT t FROM TblProveedores t WHERE t.rfc = :rfc")})
 public class TblProveedores implements Serializable {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "indice")
+    private Double indice;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,8 +61,8 @@ public class TblProveedores implements Serializable {
     @Size(max = 45)
     @Column(name = "rfc")
     private String rfc;
-    @ManyToMany(mappedBy = "tblProveedoresList")
-    private List<Tblmaterial> tblmaterialList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblProveedoresIdtblProveedores")
+    private List<TblPrecioMaterial> tblPrecioMaterialList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblProveedoresIdtblProveedores")
     private List<TblOrdencompra> tblOrdencompraList;
 
@@ -117,12 +119,12 @@ public class TblProveedores implements Serializable {
     }
 
     @XmlTransient
-    public List<Tblmaterial> getTblmaterialList() {
-        return tblmaterialList;
+    public List<TblPrecioMaterial> getTblPrecioMaterialList() {
+        return tblPrecioMaterialList;
     }
 
-    public void setTblmaterialList(List<Tblmaterial> tblmaterialList) {
-        this.tblmaterialList = tblmaterialList;
+    public void setTblPrecioMaterialList(List<TblPrecioMaterial> tblPrecioMaterialList) {
+        this.tblPrecioMaterialList = tblPrecioMaterialList;
     }
 
     @XmlTransient
@@ -157,6 +159,14 @@ public class TblProveedores implements Serializable {
     @Override
     public String toString() {
         return "com.mim.mrp.models.TblProveedores[ idtblProveedores=" + idtblProveedores + " ]";
+    }
+
+    public Double getIndice() {
+        return indice;
+    }
+
+    public void setIndice(Double indice) {
+        this.indice = indice;
     }
     
 }

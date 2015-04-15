@@ -6,9 +6,11 @@
 package com.mim.mrp.ejb;
 
 import com.mim.mrp.models.Tblproducto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -16,6 +18,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TblproductoFacade extends AbstractFacade<Tblproducto> {
+
     @PersistenceContext(unitName = "mrpMIMPU")
     private EntityManager em;
 
@@ -27,5 +30,15 @@ public class TblproductoFacade extends AbstractFacade<Tblproducto> {
     public TblproductoFacade() {
         super(Tblproducto.class);
     }
-    
+
+    public List<Tblproducto> findAll2() {
+        TypedQuery<Tblproducto> query = em.createQuery("SELECT c FROM Tblproducto c", Tblproducto.class);
+        List<Tblproducto> res = query.getResultList();
+        System.out.println("Resultados: ");
+        for (Tblproducto re : res) {
+            System.out.println(re.getNombre());
+        }
+        return res;
+    }
+
 }

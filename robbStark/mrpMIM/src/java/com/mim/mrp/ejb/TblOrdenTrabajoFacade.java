@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TblOrdenTrabajoFacade extends AbstractFacade<TblOrdenTrabajo> {
+
     @PersistenceContext(unitName = "mrpMIMPU")
     private EntityManager em;
 
@@ -27,5 +28,11 @@ public class TblOrdenTrabajoFacade extends AbstractFacade<TblOrdenTrabajo> {
     public TblOrdenTrabajoFacade() {
         super(TblOrdenTrabajo.class);
     }
-    
+
+    public int createOrder(TblOrdenTrabajo trabajo) {
+        em.persist(trabajo);
+        em.flush();
+        return trabajo.getIdtblOrdenTrabajo();
+    }
+
 }

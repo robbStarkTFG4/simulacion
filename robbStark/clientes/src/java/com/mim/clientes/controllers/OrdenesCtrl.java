@@ -5,6 +5,9 @@
  */
 package com.mim.clientes.controllers;
 
+import com.mim.clientes.ejb.TblclientesFacade;
+import com.mim.clientes.ejb.TblordenclienteFacade;
+import com.mim.clientes.ejb.TblproductoFacade;
 import com.mim.clientes.models.Tblordencliente;
 import com.mim.clientes.models.Tblproducto;
 import java.io.Serializable;
@@ -13,9 +16,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 
@@ -27,6 +32,17 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class OrdenesCtrl implements Serializable {
 
+    @Inject
+    UserCredentials userCr;
+    @EJB
+    TblordenclienteFacade ordenFacade;
+
+    @EJB
+    TblproductoFacade productFacade;
+    
+    @EJB
+    TblclientesFacade clienteFacade;
+
     private List<Tblordencliente> lista;
     private List<Tblproducto> productos;
     private Tblproducto selectedProduct;
@@ -36,7 +52,8 @@ public class OrdenesCtrl implements Serializable {
 
     @PostConstruct
     private void init() {
-
+        lista = ordenFacade.findAll(userCr.getUsuario());
+        productos = productFacade.findAll();
     }
 
     public void producComboListener(ValueChangeEvent e) {
@@ -63,7 +80,7 @@ public class OrdenesCtrl implements Serializable {
                     Integer temp = (Integer) e.getNewValue();
                     orden.setCantidad(temp);
                     if (selectedProduct != null) {
-                        //orden.setTotal(temp * selectedProduct.getPrecio());
+                        orden.setMonto(temp * selectedProduct.getPrecio());
                     }
                     System.out.println("cantidad asignada: " + temp);
                 } catch (NumberFormatException ex) {
@@ -79,14 +96,16 @@ public class OrdenesCtrl implements Serializable {
     }
 
     public void addOrder() {
-        System.out.println("alejandra leon aviña");
 
         try {
             if (orden.getCantidad() != 0) {
 
                 orden.setTblProductoidTblProducto(selectedProduct);
+                orden.setIdTblClientes(clienteFacade.findClient(userCr.getUsuario()));
+                orden.setEstatus(0);
+                orden.setFechacaptura(new Date());
+                ordenFacade.create(orden);
                 lista.add(clone(orden));
-
                 RequestContext.getCurrentInstance().update("ordenTabla:ordenes");
                 orden = new Tblordencliente();
                 dateMock = null;

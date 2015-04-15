@@ -26,7 +26,7 @@
         <link href="assets/css/style.css" rel="stylesheet"></link>
         <link href="assets/css/style-responsive.css" rel="stylesheet"></link>
 
-        <script src="assets/js/chart-master/Chart.js"></script>
+
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -137,9 +137,8 @@
                                 <li class="mt">
 
 
-                                    <h:commandLink action="catalogo.xhtml?faces-redirect=true">
-                                        <f:ajax execute="@this"/>
-                                        <i class="fa fa-dashboard"></i> <span>Productos</span>
+                                    <h:commandLink >
+                                        <i class="fa fa-dashboard"></i> <span>Accion</span>
                                     </h:commandLink>
 
                                 </li>
@@ -147,11 +146,87 @@
                                 <li class="sub-menu">
                                     <a href="javascript:;" >
                                         <i class="fa fa-desktop"></i>
+                                        <span>Ingenieria</span>
+                                    </a>
+                                    <ul class="sub">
+                                        <li>
+                                            <h:commandLink action="catalogo.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Productos</span>
+                                            </h:commandLink>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+                                <li class="sub-menu">
+                                    <a href="javascript:;" >
+                                        <i class="fa fa-cogs"></i>
                                         <span>Compras</span>
                                     </a>
                                     <ul class="sub">
-                                        <li><p:commandLink><span>Pedidos</span></p:commandLink></li>
-                                        <li><p:commandLink><span>Orden Compra</span></p:commandLink></li>
+                                        <li>
+                                            <h:commandLink action="ordenesCliente.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Ordenes Clientes</span>
+                                            </h:commandLink>
+                                        </li>
+                                        <li><p:commandLink><span>Ordenenes Compra</span></p:commandLink></li>
+                                    </ul>
+                                </li>
+
+                                <li class="sub-menu">
+                                    <a href="javascript:;" >
+                                        <i class="fa fa-th"></i>
+                                        <span>Inventarios</span>
+                                    </a>
+                                    <ul class="sub">
+                                        <li>
+                                            <h:commandLink action="almacen.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Locacion Material</span>
+                                            </h:commandLink>
+                                        </li>
+                                        <li>
+                                            <h:commandLink action="recibo.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Recibo</span>
+                                            </h:commandLink>
+                                        </li>
+                                        <li>
+                                            <h:commandLink action="inspeccion.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Inspeccion</span>
+                                            </h:commandLink>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sub-menu">
+                                    <a href="javascript:;" >
+                                        <i class="fa fa-book"></i>
+                                        <span>Planeacion</span>
+                                    </a>
+                                    <ul class="sub">
+                                        <li>
+                                            <h:commandLink action="estatusCompras.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Generar MPS</span>
+                                            </h:commandLink>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sub-menu">
+                                    <a href="javascript:;" >
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Produccion</span>
+                                    </a>
+                                    <ul class="sub">
+                                        <li>
+                                            <h:commandLink action="reporteProduccion.xhtml?faces-redirect=true">
+                                                <f:ajax execute="@this"/>
+                                                <span>Actividad Produccion</span>
+                                            </h:commandLink>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -553,8 +628,7 @@
         </section>
 
         <!-- js placed at the end of the document so the pages load faster -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/jquery-1.8.3.min.js"></script>
+
         <script src="assets/js/bootstrap.min.js"></script>
         <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>

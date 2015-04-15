@@ -6,20 +6,22 @@
 package com.mim.mrp.models;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,9 +46,8 @@ public class Tbldepartamento implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "Nombre")
     private String nombre;
-    @JoinColumn(name = "TblPermisos_idTblPermisos", referencedColumnName = "idTblPermisos")
-    @ManyToOne(optional = false)
-    private Tblpermisos tblPermisosidTblPermisos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblDepartamentoidTblDepartamento")
+    private List<Tblpermisos> tblpermisosList;
 
     public Tbldepartamento() {
     }
@@ -76,12 +77,13 @@ public class Tbldepartamento implements Serializable {
         this.nombre = nombre;
     }
 
-    public Tblpermisos getTblPermisosidTblPermisos() {
-        return tblPermisosidTblPermisos;
+    @XmlTransient
+    public List<Tblpermisos> getTblpermisosList() {
+        return tblpermisosList;
     }
 
-    public void setTblPermisosidTblPermisos(Tblpermisos tblPermisosidTblPermisos) {
-        this.tblPermisosidTblPermisos = tblPermisosidTblPermisos;
+    public void setTblpermisosList(List<Tblpermisos> tblpermisosList) {
+        this.tblpermisosList = tblpermisosList;
     }
 
     @Override

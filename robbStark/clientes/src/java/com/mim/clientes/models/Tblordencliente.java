@@ -7,7 +7,9 @@ package com.mim.clientes.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tblordencliente.findByCantidad", query = "SELECT t FROM Tblordencliente t WHERE t.cantidad = :cantidad"),
     @NamedQuery(name = "Tblordencliente.findByFechadeentrega", query = "SELECT t FROM Tblordencliente t WHERE t.fechadeentrega = :fechadeentrega"),
     @NamedQuery(name = "Tblordencliente.findByFechacaptura", query = "SELECT t FROM Tblordencliente t WHERE t.fechacaptura = :fechacaptura"),
-    @NamedQuery(name = "Tblordencliente.findByEstatus", query = "SELECT t FROM Tblordencliente t WHERE t.estatus = :estatus")})
+    @NamedQuery(name = "Tblordencliente.findByEstatus", query = "SELECT t FROM Tblordencliente t WHERE t.estatus = :estatus"),
+    @NamedQuery(name = "Tblordencliente.findByMonto", query = "SELECT t FROM Tblordencliente t WHERE t.monto = :monto")})
 public class Tblordencliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,18 +55,30 @@ public class Tblordencliente implements Serializable {
     private int cantidad;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Fecha de entrega")
+    @Column(name = "Fecha_de_entrega")
     @Temporal(TemporalType.DATE)
     private Date fechadeentrega;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Fecha captura")
+    @Column(name = "Fecha_captura")
     @Temporal(TemporalType.DATE)
     private Date fechacaptura;
     @Basic(optional = false)
     @NotNull
     @Column(name = "estatus")
     private int estatus;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "monto")
+    private double monto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenclienteidTblOrdencliente")
+    private List<TblPlanProducction> tblPlanProducctionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblordencliente")
+    private List<TblOrdencompra> tblOrdencompraList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenclienteidTblOrdencliente")
+    private List<TblAlmacen> tblAlmacenList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdenclienteidTblOrdencliente")
+    private List<TblOrdenTrabajo> tblOrdenTrabajoList;
     @JoinColumn(name = "idTblClientes", referencedColumnName = "idTblClientes")
     @ManyToOne(optional = false)
     private Tblclientes idTblClientes;
@@ -76,12 +93,13 @@ public class Tblordencliente implements Serializable {
         this.idTblOrdencliente = idTblOrdencliente;
     }
 
-    public Tblordencliente(Integer idTblOrdencliente, int cantidad, Date fechadeentrega, Date fechacaptura, int estatus) {
+    public Tblordencliente(Integer idTblOrdencliente, int cantidad, Date fechadeentrega, Date fechacaptura, int estatus, double monto) {
         this.idTblOrdencliente = idTblOrdencliente;
         this.cantidad = cantidad;
         this.fechadeentrega = fechadeentrega;
         this.fechacaptura = fechacaptura;
         this.estatus = estatus;
+        this.monto = monto;
     }
 
     public Integer getIdTblOrdencliente() {
@@ -122,6 +140,50 @@ public class Tblordencliente implements Serializable {
 
     public void setEstatus(int estatus) {
         this.estatus = estatus;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    @XmlTransient
+    public List<TblPlanProducction> getTblPlanProducctionList() {
+        return tblPlanProducctionList;
+    }
+
+    public void setTblPlanProducctionList(List<TblPlanProducction> tblPlanProducctionList) {
+        this.tblPlanProducctionList = tblPlanProducctionList;
+    }
+
+    @XmlTransient
+    public List<TblOrdencompra> getTblOrdencompraList() {
+        return tblOrdencompraList;
+    }
+
+    public void setTblOrdencompraList(List<TblOrdencompra> tblOrdencompraList) {
+        this.tblOrdencompraList = tblOrdencompraList;
+    }
+
+    @XmlTransient
+    public List<TblAlmacen> getTblAlmacenList() {
+        return tblAlmacenList;
+    }
+
+    public void setTblAlmacenList(List<TblAlmacen> tblAlmacenList) {
+        this.tblAlmacenList = tblAlmacenList;
+    }
+
+    @XmlTransient
+    public List<TblOrdenTrabajo> getTblOrdenTrabajoList() {
+        return tblOrdenTrabajoList;
+    }
+
+    public void setTblOrdenTrabajoList(List<TblOrdenTrabajo> tblOrdenTrabajoList) {
+        this.tblOrdenTrabajoList = tblOrdenTrabajoList;
     }
 
     public Tblclientes getIdTblClientes() {

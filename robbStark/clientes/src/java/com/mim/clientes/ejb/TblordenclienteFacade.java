@@ -6,9 +6,12 @@
 package com.mim.clientes.ejb;
 
 import com.mim.clientes.models.Tblordencliente;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -16,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TblordenclienteFacade extends AbstractFacade<Tblordencliente> {
+
     @PersistenceContext(unitName = "clientesPU")
     private EntityManager em;
 
@@ -27,5 +31,16 @@ public class TblordenclienteFacade extends AbstractFacade<Tblordencliente> {
     public TblordenclienteFacade() {
         super(Tblordencliente.class);
     }
-    
+
+    public List<Tblordencliente> findAll(String usuario) {
+        TypedQuery<Tblordencliente> query = em.createQuery("SELECT c FROM Tblordencliente c WHERE c.idTblClientes.usuario =:usr", Tblordencliente.class);
+        query.setParameter("usr", usuario);
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+
+    }
+
 }

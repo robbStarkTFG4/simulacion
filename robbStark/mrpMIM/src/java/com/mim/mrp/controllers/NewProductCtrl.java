@@ -35,19 +35,17 @@ public class NewProductCtrl implements Serializable {
     private Part file;
     private String fileContent;
     private Tblproducto newbi = new Tblproducto();
-    private final String ruta = "C:\\Users\\NORE\\Documents\\GitHub\\simulacion\\robbStark\\mrpMIM\\web\\imagenes\\";
+    private final String ruta = "C:\\Users\\NORE\\Documents\\GitHub\\simulacion\\robbStark\\mrpMIM\\web\\imagenes\\productos\\";
+
     @Inject
-    private Conversation conver;
+    ProductHolder gridCtrl;
+
     @EJB
     private TblproductoFacade productFacade;
 
     @PostConstruct
     private void init() {
         //conver.begin();
-    }
-
-    public void endConversation() {
-        conver.end();
     }
 
     public void handleFileUpload(AjaxBehaviorEvent event) {
@@ -63,6 +61,7 @@ public class NewProductCtrl implements Serializable {
             newbi.setImagen(file.getSubmittedFileName());
             productFacade.create(newbi);
             newbi = new Tblproducto();
+            //gridCtrl.updateList();
         } catch (Exception e) {
             // Error handling
         }

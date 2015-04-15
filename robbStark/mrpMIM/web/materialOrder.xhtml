@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+    </h:head>
+    <h:body  style="font-size: 90%">
+        <ui:composition template="/index.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>ORDENAR MATERIALES</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8" style="font-size: 1.3em ">
+
+
+                                <p:dataTable var="abcObject" value="#{abc.listModel}" reflow="true">
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{abcObject.id}" />
+                                    </p:column>
+
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{abcObject.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="Volumen unidades">
+                                        <h:outputText value="#{abcObject.volumenUnidades}" />
+                                    </p:column>
+
+                                    <p:column headerText="Volumen dlls">
+                                        <h:outputText value="#{abcObject.volumenDolares}" />
+                                    </p:column>
+
+                                    <p:column headerText="%">
+                                        <h:outputText value="#{abcObject.volumenPorcientoDlls}" />
+                                    </p:column>
+
+                                    <p:column headerText="clase">
+                                        <p:inputText value="#{abcObject.clase}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;font-size: 1.5em">
+                            <div class="col-md-8">
+                                <p:commandButton value="Guardar" action="#{abc.guardar}"/>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="right">
+                <h:form>
+                    <div style="font-size: 1.3em">
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-3">
+                                <h2>Menu</h2>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.1em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="una opcion" >
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

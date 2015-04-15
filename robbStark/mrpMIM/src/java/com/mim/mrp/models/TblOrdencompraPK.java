@@ -32,6 +32,11 @@ public class TblOrdencompraPK implements Serializable {
     public TblOrdencompraPK() {
     }
 
+    public TblOrdencompraPK(int tblMaterialidTblMateria, int tblOrdenclienteidTblOrdencliente) {
+        this.tblMaterialidTblMateria = tblMaterialidTblMateria;
+        this.tblOrdenclienteidTblOrdencliente = tblOrdenclienteidTblOrdencliente;
+    }
+
     public TblOrdencompraPK(int idtblordenCompra, int tblMaterialidTblMateria, int tblOrdenclienteidTblOrdencliente) {
         this.idtblordenCompra = idtblordenCompra;
         this.tblMaterialidTblMateria = tblMaterialidTblMateria;

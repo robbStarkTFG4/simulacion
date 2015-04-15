@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tbldetallereceta.findByIdTblDetalleReceta", query = "SELECT t FROM Tbldetallereceta t WHERE t.idTblDetalleReceta = :idTblDetalleReceta"),
     @NamedQuery(name = "Tbldetallereceta.findByCantidad", query = "SELECT t FROM Tbldetallereceta t WHERE t.cantidad = :cantidad")})
 public class Tbldetallereceta implements Serializable {
+
+    @Column(name = "unidad")
+    private String unidad;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,5 +120,13 @@ public class Tbldetallereceta implements Serializable {
     public String toString() {
         return "com.mim.mrp.models.Tbldetallereceta[ idTblDetalleReceta=" + idTblDetalleReceta + " ]";
     }
-    
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {  
+        this.unidad = unidad;
+    }
+
 }

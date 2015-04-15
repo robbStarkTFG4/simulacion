@@ -36,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tblreceta.findAll", query = "SELECT t FROM Tblreceta t"),
     @NamedQuery(name = "Tblreceta.findByIdTblReceta", query = "SELECT t FROM Tblreceta t WHERE t.idTblReceta = :idTblReceta"),
     @NamedQuery(name = "Tblreceta.findByDescripcion", query = "SELECT t FROM Tblreceta t WHERE t.descripcion = :descripcion"),
-    @NamedQuery(name = "Tblreceta.findByFabricasion", query = "SELECT t FROM Tblreceta t WHERE t.fabricasion = :fabricasion")})
+    @NamedQuery(name = "Tblreceta.findByFabricasion", query = "SELECT t FROM Tblreceta t WHERE t.fabricasion = :fabricasion"),
+    @NamedQuery(name = "Tblreceta.findByTiempo", query = "SELECT t FROM Tblreceta t WHERE t.tiempo = :tiempo"),
+    @NamedQuery(name = "Tblreceta.findByUnidad", query = "SELECT t FROM Tblreceta t WHERE t.unidad = :unidad")})
 public class Tblreceta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,9 +51,15 @@ public class Tblreceta implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @Size(max = 800)
+    @Size(max = 2500)
     @Column(name = "fabricasion")
     private String fabricasion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "tiempo")
+    private Double tiempo;
+    @Size(max = 10)
+    @Column(name = "unidad")
+    private String unidad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblRecetaidTblReceta")
     private List<Tbldetallereceta> tbldetallerecetaList;
     @JoinColumn(name = "TblProducto_idTblProducto", referencedColumnName = "idTblProducto")
@@ -92,6 +100,22 @@ public class Tblreceta implements Serializable {
 
     public void setFabricasion(String fabricasion) {
         this.fabricasion = fabricasion;
+    }
+
+    public Double getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(Double tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
     }
 
     @XmlTransient

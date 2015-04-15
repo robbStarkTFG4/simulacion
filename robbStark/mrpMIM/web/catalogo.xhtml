@@ -11,39 +11,41 @@
     <h:body style="font-size: 90%">
         <ui:composition template="/productos.xhtml">
             <ui:define name="overrideContent">      
-                <div style="margin-top: 25px">
-                    <div class="col-md-8">
-                        <p:dataGrid var="product"   value="#{catalogo.productsList}" columns="3" layout="grid"
-                                    rows="12" paginator="true" id="productsGrid"
-                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                    rowsPerPageTemplate="6,12,16">
+                <h:form>
+                    <div style="margin-top: 25px">
+                        <div class="col-md-8">
 
-                            <f:facet name="header">
-                                Lista Productos
-                            </f:facet>
+                            <p:dataGrid var="product" style="font-size: 1.3em "  value="#{catalogo.productsList}" columns="3" layout="grid"
+                                        rows="3" paginator="true"
+                                        > 
 
-                            <p:panel header="#{product.nombre}" style="text-align:center">
-                                <h:panelGrid columns="1" style="width:100%">
+                                <f:facet name="header">
+                                    Lista Productos
+                                </f:facet>
 
+                                <p:panel header="#{product.nombre}" style="text-align:center">
+                                    <h:panelGrid columns="1" style="width:100%">
+                                        <center>
+                                            <p:graphicImage  alt="Responsive image" styleClass="img-responsive col-lg-12" value="/imagenes/productos/#{product.imagen}"  />  
 
-                                    <h:outputText value="#{product.modelo}" />
+                                            <h:outputText value="#{product.modelo}" />
 
-                                    <p:commandLink title="View Detail">
-                                        <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                                        <f:setPropertyActionListener value="#{product}" target="#{catalogo.current}" />
-                                    </p:commandLink>
-                                </h:panelGrid>
-                            </p:panel>
+                                            <p:commandButton title="View Detail" style="margin:0 auto;width: 25px" icon="ui-icon ui-icon-search" styleClass="form-control" action="#{catalogo.redirect(product)}">           
+                                            </p:commandButton>
+                                        </center>
+                                    </h:panelGrid>
+                                </p:panel>
 
-                        </p:dataGrid>
+                            </p:dataGrid>
 
+                        </div>
                     </div>
-                </div>
+                </h:form>
             </ui:define>
 
             <ui:define name="overrideContentRight">
                 <div style="font-size: 1.5em">
-                    dasdasdasdas
+
                 </div>
             </ui:define>
         </ui:composition>

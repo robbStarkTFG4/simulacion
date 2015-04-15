@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+
+    </h:head>
+    <h:body style="font-size: 90%">
+        <ui:composition template="/productos.xhtml">
+            <ui:define name="overrideContent">      
+                <h:form id="form">
+                    <div style="margin-top: 25px">
+                        <div class="row" style="font-size: 1em">
+                            <div class=" col-md-8">
+                                <div class="form-group">
+                                    <p:messages showDetail="true" autoUpdate="true"/>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size: 2em">
+                                <div class=" col-md-8">
+                                    <p class="text-primary">Crear Receta</p>
+                                </div>
+                            </div>
+                            <div class=" col-md-8" style="font-size: 1.5em">
+                                <div class="form-group">
+                                    <label for="nompreProduct">Descripcion</label>
+                                    <h:inputTextarea styleClass="form-control"  value="#{receta.createReceta.descripcion}" id="nompreProduct" pt:placeholder="Escribe Nombre" required="true"></h:inputTextarea>                 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size: 1.3em">
+                            <div class=" col-md-8">
+                                <p:fieldset id="availableCarsField" legend="Materiales Disponibles">
+                                    <p:dataTable paginator="true" rows="3" id="availableMtls" var="mtls" value="#{receta.mtlList}">
+                                        <p:column style="width:35px">
+                                            <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
+                                            <p:draggable for="dragIcon" revert="true" helper="clone"/>
+                                        </p:column>
+
+                                        <p:column headerText="Id" style="width: 55px">
+                                            <h:outputText value="#{mtls.idTblMateria}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{mtls.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Descripcion">
+                                            <h:outputText value="#{mtls.descripcion}" />
+                                        </p:column>
+                                        <p:column style="width:15%;text-align: center">
+                                            <p:commandButton update=":form:carDetail" immediate="true" oncomplete="PF('carOP').show('#{component.clientId}')" icon="ui-icon-search" title="View">
+                                                <f:setPropertyActionListener value="#{mtls}" target="#{receta.currentMtl}" />
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:fieldset>
+
+                                <p:fieldset id="selectedMaterials" legend="Materiales Escogidos" style="margin-top:20px">
+                                    <p:outputPanel id="dropArea">
+                                        <h:outputText value="Arrastra Aqui" rendered="#{empty receta.selectedList}" style="font-size:24px;" />
+                                        <p:dataTable editable="true"  editMode="cell" id="selectedCarsTable" var="car" value="#{receta.selectedList}" rendered="#{not empty receta.selectedList}">
+                                            <p:column headerText="Id">
+                                                <h:outputText value="#{car.tblMaterialidTblMateria.idTblMateria}" />
+                                            </p:column>
+
+                                            <p:column headerText="Nombre">
+                                                <h:outputText value="#{car.tblMaterialidTblMateria.nombre}" />
+                                            </p:column>
+
+                                            <p:column headerText="Cantidad">
+                                                <p:cellEditor>
+                                                    <f:facet name="output"><h:outputText value="#{car.cantidad}" /></f:facet>
+                                                    <f:facet name="input"><p:inputText value="#{car.cantidad}" style="width:96%" label="Cantidad"/></f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column headerText="Unidad">
+                                                <h:selectOneMenu value="#{car.unidad}" required="true">
+                                                    <f:selectItem itemValue="kg" itemLabel="kilogramos"/>
+                                                    <f:selectItem itemValue="gr" itemLabel="gramos"/>
+                                                    <f:selectItem itemValue="pz" itemLabel="piezas"/>
+                                                    <f:selectItem itemValue="dc" itemLabel="docenas"/>
+                                                </h:selectOneMenu> 
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:outputPanel>
+                                </p:fieldset>
+
+                                <p:droppable for="selectedMaterials" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableMtls" onDrop="handleDrop">
+                                    <p:ajax listener="#{receta.onCarDrop}" update="dropArea availableMtls" />
+                                </p:droppable>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size: 1.3em;margin-top: 10px">
+                            <div class=" col-md-8">
+                                <div class="form-group">
+                                    <span>Duracion </span>
+                                    <h:inputText value="#{receta.createReceta.tiempo}" styleClass="form-control" required="true" pt:placeholder="Escribe duracion"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size: 1.3em;margin-top: 10px">
+                            <div class=" col-md-8">
+                                <div class="form-group">
+                                    <span>Unidad </span>
+                                    <h:selectOneMenu value="#{receta.createReceta.unidad}" required="true">
+                                        <f:selectItem itemValue="sg" itemLabel="segundos"/>
+                                        <f:selectItem itemValue="hr" itemLabel="horas"/>
+                                        <f:selectItem itemValue="dy" itemLabel="dias"/>
+                                        <f:selectItem itemValue="meses" itemLabel="meses"/>
+                                    </h:selectOneMenu> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="font-size: 1.3em;margin-top: 20px">
+                            <div class=" col-md-8">
+                                <div class="form-group">
+                                    <p:commandButton styleClass="btn btn-primary" action="#{receta.guardar}"  ajax="false" process="@form" value="Guardar"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p:overlayPanel widgetVar="carOP" style="width: 250px" showEffect="fade" hideEffect="fade" dismissable="false" showCloseIcon="true" >
+                        <p:outputPanel id="carDetail" style="text-align:center;">
+                            <p:panelGrid  columns="2" rendered="#{not empty receta.currentMtl}" columnClasses="label,value">
+                                <f:facet name="header">
+                                    <p:graphicImage  styleClass="img-responsive col-lg-12" value="/imagenes/material/#{receta.currentMtl.imagen}"/> 
+                                </f:facet>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:overlayPanel>
+
+                </h:form>
+                <script type="text/javascript">
+                    function handleDrop(event, ui) {
+                        var droppedCar = ui.draggable;
+
+                        //droppedCar.fadeOut('fast');
+                    }
+                </script>
+            </ui:define>
+
+            <ui:define name="overrideContentRight">
+                <h:form>
+                    <div style="font-size: 1.3em">
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-3">
+                                <h2>Menu</h2>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="Regresar" immediate="true" action="productDetail?faces-redirect=true">
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.3em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="Crear Material" immediate="true" action="addMaterial?faces-redirect=true">
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>
+

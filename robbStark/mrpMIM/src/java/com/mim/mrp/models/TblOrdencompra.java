@@ -6,10 +6,9 @@
 package com.mim.mrp.models;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -17,13 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,7 +41,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TblOrdencompra.findByTblOrdenclienteidTblOrdencliente", query = "SELECT t FROM TblOrdencompra t WHERE t.tblOrdencompraPK.tblOrdenclienteidTblOrdencliente = :tblOrdenclienteidTblOrdencliente"),
     @NamedQuery(name = "TblOrdencompra.findByFechaCompra", query = "SELECT t FROM TblOrdencompra t WHERE t.fechaCompra = :fechaCompra"),
     @NamedQuery(name = "TblOrdencompra.findByFechaEntrega", query = "SELECT t FROM TblOrdencompra t WHERE t.fechaEntrega = :fechaEntrega")})
-public class TblOrdencompra implements Serializable {
+public class TblOrdencompra implements Serializable, Comparator<TblOrdencompra> {
+    @Column(name = "receta")
+    private Integer receta;
+    @Size(max = 1)
+    @Column(name = "clase")
+    private String clase;
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
+    @Column(name = "pu")
+    private Double pu;
+    @Column(name = "demanda")
+    private Integer demanda;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TblOrdencompraPK tblOrdencompraPK;
@@ -79,8 +89,6 @@ public class TblOrdencompra implements Serializable {
     @JoinColumn(name = "TblOrdencliente_idTblOrdencliente", referencedColumnName = "idTblOrdencliente", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Tblordencliente tblordencliente;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tblOrdencompra")
-    private List<TblAlmacen> tblAlmacenList;
 
     public TblOrdencompra() {
     }
@@ -188,15 +196,6 @@ public class TblOrdencompra implements Serializable {
         this.tblordencliente = tblordencliente;
     }
 
-    @XmlTransient
-    public List<TblAlmacen> getTblAlmacenList() {
-        return tblAlmacenList;
-    }
-
-    public void setTblAlmacenList(List<TblAlmacen> tblAlmacenList) {
-        this.tblAlmacenList = tblAlmacenList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -221,5 +220,42 @@ public class TblOrdencompra implements Serializable {
     public String toString() {
         return "com.mim.mrp.models.TblOrdencompra[ tblOrdencompraPK=" + tblOrdencompraPK + " ]";
     }
-    
+
+    public Double getPu() {
+        return pu;
+    }
+
+    public void setPu(Double pu) {
+        this.pu = pu;
+    }
+
+    public Integer getDemanda() {
+        return demanda;
+    }
+
+    public void setDemanda(Integer demanda) {
+        this.demanda = demanda;
+    }
+
+    @Override
+    public int compare(TblOrdencompra o1, TblOrdencompra o2) {
+        return Integer.compare(o1.getDemanda(), o2.getDemanda());
+    }
+
+    public String getClase() {
+        return clase;
+    }
+
+    public void setClase(String clase) {
+        this.clase = clase;
+    }
+
+    public Integer getReceta() {
+        return receta;
+    }
+
+    public void setReceta(Integer receta) {
+        this.receta = receta;
+    }
+
 }

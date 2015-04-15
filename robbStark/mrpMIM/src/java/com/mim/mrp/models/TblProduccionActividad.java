@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TblProduccionActividad.findByFecha", query = "SELECT t FROM TblProduccionActividad t WHERE t.fecha = :fecha"),
     @NamedQuery(name = "TblProduccionActividad.findByCantidad", query = "SELECT t FROM TblProduccionActividad t WHERE t.cantidad = :cantidad")})
 public class TblProduccionActividad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +65,11 @@ public class TblProduccionActividad implements Serializable {
 
     public TblProduccionActividad(Integer idtblProduccionActividad, Date fecha, int cantidad) {
         this.idtblProduccionActividad = idtblProduccionActividad;
+        this.fecha = fecha;
+        this.cantidad = cantidad;
+    }
+
+    public TblProduccionActividad(Date fecha, int cantidad) {
         this.fecha = fecha;
         this.cantidad = cantidad;
     }
@@ -124,5 +130,5 @@ public class TblProduccionActividad implements Serializable {
     public String toString() {
         return "com.mim.mrp.models.TblProduccionActividad[ idtblProduccionActividad=" + idtblProduccionActividad + " ]";
     }
-    
+
 }

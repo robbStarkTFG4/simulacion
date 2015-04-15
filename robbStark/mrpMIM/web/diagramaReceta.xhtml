@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"          
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>MRP</title>
+        <style>
+            .ui-diagram-element {
+                position: absolute;
+                border-color: black;
+                background-color: #e9e9e9;
+                padding: 10px;
+            }
+        </style>
+    </h:head>
+    <h:body style="font-size: 90%">
+        <ui:composition template="/productos.xhtml">
+            <ui:define name="overrideContent">      
+                <h:form id="form">
+                    <div style="margin-top: 25px; font-size: 1.3em">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <p:growl id="msgs" showDetail="true" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <p:outputLabel for="selectMenu" value="Selecciona Receta" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <h:selectOneMenu id="selectMenu" valueChangeListener="#{diagram.recetaListener}" value="#{diagram.current}" styleClass="form-control"  style="width:125px" converter="diagramConv">
+                                    <f:ajax execute="@this" render="diagramaD"/>
+                                    <f:selectItem itemLabel="ID" itemValue="#{null}" noSelectionOption="true" /> 
+                                    <f:selectItems value="#{diagram.recetasList}" var="res" itemValue="#{res}" itemLabel="#{res.descripcion}" />
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <p:diagram  id="diagramaD" value="#{diagram.model}" style="height:600px" styleClass="ui-widget-content" var="el">
+                                <f:facet name="element">
+                                    <div>
+                                        <div class="col-md-1">
+                                            <div class="row" style="margin-top: 5px">
+                                                <h:outputText value="#{el.name}"  />
+                                            </div>
+                                            <div class="row" style="margin-top: 5px">
+                                                <h:inputText value="#{el.descripcion}"  rendered="false" pt:placeholder="Descripcion" />
+                                            </div>
+                                            <div class="row" style="margin-top: 5px">
+                                                <h:inputText value="#{el.duracion}" rendered="false"  pt:placeholder="Duracion" />
+                                            </div>
+                                            <div class="row" style="margin-top: 5px;margin-bottom: 7px" >
+                                                <h:selectOneMenu   value="#{el.unidad}"  rendered="false">
+                                                    <f:selectItem itemValue="sg" itemLabel="segundos"/>
+                                                    <f:selectItem itemValue="hr" itemLabel="horas"/>
+                                                    <f:selectItem itemValue="dy" itemLabel="dias"/>
+                                                    <f:selectItem itemValue="meses" itemLabel="meses"/>
+                                                </h:selectOneMenu> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </f:facet>
+                                <p:ajax event="connect" listener="#{diagram.onConnect}" />
+                                <p:ajax event="disconnect" listener="#{diagram.onDisconnect}" />
+                                <p:ajax event="connectionChange" listener="#{diagram.onConnectionChange}" />
+                            </p:diagram>
+                        </div>
+
+                        <div class="col-md-8" style="margin-top: 18px">
+                            <div class="form-group">
+                                <p:commandButton  value="Guardar" styleClass="btn btn-primary" actionListener="#{diagram.saveDiagram}" update="diagramaD,selectMenu">
+                                    <p:ajax process="@this"/>
+                                </p:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="overrideContentRight">
+                <h:form>
+                    <div style="font-size: 1.3em">
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-3">
+                                <h2>Menu</h2>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="Regresar "  immediate="true" action="productDetail?faces-redirect=true">
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
