@@ -18,6 +18,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -31,31 +32,31 @@ import org.primefaces.context.RequestContext;
 @Named("ordi")
 @ViewScoped
 public class OrdenesCtrl implements Serializable {
-
+    
     @Inject
     UserCredentials userCr;
     @EJB
     TblordenclienteFacade ordenFacade;
-
+    
     @EJB
     TblproductoFacade productFacade;
     
     @EJB
     TblclientesFacade clienteFacade;
-
+    
     private List<Tblordencliente> lista;
     private List<Tblproducto> productos;
     private Tblproducto selectedProduct;
     private Tblordencliente orden = new Tblordencliente();
     private Boolean enabled = true;
     private String dateMock;
-
+    
     @PostConstruct
     private void init() {
         lista = ordenFacade.findAll(userCr.getUsuario());
         productos = productFacade.findAll();
     }
-
+    
     public void producComboListener(ValueChangeEvent e) {
         //System.out.println("hola");
         orden.setCantidad(0);
@@ -72,7 +73,7 @@ public class OrdenesCtrl implements Serializable {
             enabled = true;
         }
     }
-
+    
     public void cantidadListener(ValueChangeEvent e) {
         if (e != null) {
             if (e.getNewValue() != null) {
@@ -86,7 +87,7 @@ public class OrdenesCtrl implements Serializable {
                 } catch (NumberFormatException ex) {
                     System.out.println("es cero o nulo");
                 }
-
+                
             } else {
                 System.out.println("es cero o nulo");
             }
@@ -94,12 +95,12 @@ public class OrdenesCtrl implements Serializable {
             System.out.println("es cero o nulo");
         }
     }
-
+    
     public void addOrder() {
-
+        
         try {
             if (orden.getCantidad() != 0) {
-
+                
                 orden.setTblProductoidTblProducto(selectedProduct);
                 orden.setIdTblClientes(clienteFacade.findClient(userCr.getUsuario()));
                 orden.setEstatus(0);
@@ -117,7 +118,7 @@ public class OrdenesCtrl implements Serializable {
             System.out.println("fecha incorrecta");
         }
     }
-
+    
     private Tblordencliente clone(Tblordencliente orden) {
         Tblordencliente or = new Tblordencliente();
         or.setCantidad(orden.getCantidad());
@@ -126,54 +127,62 @@ public class OrdenesCtrl implements Serializable {
         //or.setTotal(orden.getTotal());
         return or;
     }
+    
+    public void finalListener(ActionEvent e) {
+        Tblordencliente temp = (Tblordencliente) e.getComponent().getAttributes().get("finish");
+        System.out.println(temp);
+        lista.remove(temp);
+        ordenFacade.changeStatus(temp.getIdTblOrdencliente(), 8);
+        RequestContext.getCurrentInstance().update("ordenTabla:ordenes");
+    }
 
     // getters-setters  "boiler plate"
     public List<Tblordencliente> getLista() {
         return lista;
     }
-
+    
     public void setLista(List<Tblordencliente> lista) {
         this.lista = lista;
     }
-
+    
     public List<Tblproducto> getProductos() {
         return productos;
     }
-
+    
     public void setProductos(List<Tblproducto> productos) {
         this.productos = productos;
     }
-
+    
     public Tblproducto getSelectedProduct() {
         return selectedProduct;
     }
-
+    
     public void setSelectedProduct(Tblproducto selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
-
+    
     public Tblordencliente getOrden() {
         return orden;
     }
-
+    
     public void setOrden(Tblordencliente orden) {
         this.orden = orden;
     }
-
+    
     public Boolean getEnabled() {
         return enabled;
     }
-
+    
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-
+    
     public String getDateMock() {
         return dateMock;
     }
-
+    
     public void setDateMock(String dateMock) {
         this.dateMock = dateMock;
     }
-
+    
 }

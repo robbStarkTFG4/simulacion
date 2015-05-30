@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MRP</title>
+        <style>
+            .vertical li{
+                display: block;
+            }
+
+            .companyHeaderGrid tr, .companyHeaderGrid td {
+                border: none !important;
+            }
+        </style>
+    </h:head>
+    <h:body  style="font-size: 90%">
+        <ui:composition template="/index.xhtml">
+            <ui:define name="content">
+                <h:form id="confi">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>Confirmar Locasion</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8" style="font-size: 1.3em ">
+                                <p:dataList id="lala" value="#{location.ordenes}" var="Kar" >  
+                                    <f:facet name="header">
+                                        Confirma Locasion
+                                    </f:facet>
+                                    <p:panelGrid styleClass="companyHeaderGrid">
+                                        <p:column>
+                                            <div>
+                                                <ul class="vertical">
+                                                    <li>
+                                                        <span style="margin-right: 8px">#Orden Compra : <span style="color: blue">#{Kar.orden.tblOrdencompraPK.idtblordenCompra}</span></span> <span> Monto : <span style="color: blue">#{Kar.orden.monto} </span></span> 
+                                                    </li>
+                                                    <li>
+                                                        #Orden Cliente : <span style="color: blue">#{Kar.orden.tblordencliente.idTblOrdencliente}</span>
+                                                    </li>
+                                                    <li>
+                                                        #Cliente : <span style="color: blue">#{Kar.orden.tblordencliente.idTblClientes.idTblClientes}</span>
+                                                    </li>
+                                                    <li>
+                                                        Material : <span style="color: blue">#{Kar.orden.tblmaterial.nombre}</span>
+                                                    </li>
+                                                    <li>
+                                                        Cantidad : <span style="color: blue">#{Kar.orden.demanda}</span>
+                                                    </li>
+                                                    <li>
+                                                        Locasion : <span style="color: blue">#{Kar.alm.tblLocasionIdtblLocasion.descripcion}</span>
+                                                    </li>
+                                                    <li >
+                                                        <div style="margin-left: 40px;margin-top: 15px">
+                                                            <p:commandButton  value="Confirmar" actionListener="#{location.asignLocationListener}">
+                                                                <f:attribute value="#{Kar}" name="nemu"/>
+                                                                 <p:confirm header="Confirmar" message="Estas seguro?" icon="ui-icon-alert" />
+                                                            </p:commandButton>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+
+
+                                            </div>
+                                        </p:column>
+                                        <p:column>
+                                            <div >
+                                                <p:graphicImage  style="width:304px ;height:236px;margin-left: 12px;margin-top: 5px" alt="Responsive image" styleClass="img-responsive " value="/imagenes/material/#{Kar.orden.tblmaterial.imagen}"  />  
+                                            </div>
+
+
+                                        </p:column>
+
+                                    </p:panelGrid>
+                                    <p:separator/>
+                                </p:dataList>
+                            </div>
+                        </div>
+                    </div>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="right">
+                <h:form>
+                    <div style="font-size: 1.3em">
+                        <div class="row" style="font-size: 1.5em">
+                            <div class=" col-md-3">
+                                <h2>Menu</h2>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size: 1.1em">
+                            <div class=" col-md-6">
+                                <h:commandLink value="una opcion" >
+                                    <f:ajax execute="@this"/>
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

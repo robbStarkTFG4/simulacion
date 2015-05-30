@@ -45,7 +45,7 @@ public class TblOrdencompraFacade extends AbstractFacade<TblOrdencompra> {
 
     public List<TblOrdencompra> findAvailable() {  
         //TypedQuery<TblOrdencompra> query = em.createQuery("SELECT c FROM TblOrdencompra c WHERE c.clase IS NOT NULL AND c.estatus != 2 AND c.estatus != 3" , TblOrdencompra.class);
-        TypedQuery<TblOrdencompra> query = em.createQuery("SELECT c FROM TblOrdencompra c WHERE c.clase IS NOT NULL AND c.estatus != 2 AND c.estatus != 3", TblOrdencompra.class);
+        TypedQuery<TblOrdencompra> query = em.createQuery("SELECT c FROM TblOrdencompra c WHERE c.clase IS NOT NULL AND c.estatus != 2 AND c.estatus != 3 AND c.estatus != 4", TblOrdencompra.class);
         return query.getResultList();
     }
 

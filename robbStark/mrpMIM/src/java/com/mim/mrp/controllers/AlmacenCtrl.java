@@ -32,8 +32,8 @@ public class AlmacenCtrl implements Serializable {
     @PostConstruct
     private void init() {
         System.out.println("init almacen abc");
-        ordnesProcesadas = candidatesFacade.findAll2(1);
-        ordenesConABC = candidatesFacade.findAll2(2);
+        ordnesProcesadas = candidatesFacade.findAll(1);
+        ordenesConABC = candidatesFacade.findAll(2);
 
     }
 

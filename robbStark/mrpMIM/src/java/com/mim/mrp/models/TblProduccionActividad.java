@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,6 +37,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TblProduccionActividad.findByFecha", query = "SELECT t FROM TblProduccionActividad t WHERE t.fecha = :fecha"),
     @NamedQuery(name = "TblProduccionActividad.findByCantidad", query = "SELECT t FROM TblProduccionActividad t WHERE t.cantidad = :cantidad")})
 public class TblProduccionActividad implements Serializable {
+    @Size(max = 1200)
+    @Column(name = "comentario")
+    private String comentario;
+    @Column(name = "estatus")
+    private Integer estatus;
+    @Column(name = "cantidadReal")
+    private Integer cantidadReal;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -129,6 +137,30 @@ public class TblProduccionActividad implements Serializable {
     @Override
     public String toString() {
         return "com.mim.mrp.models.TblProduccionActividad[ idtblProduccionActividad=" + idtblProduccionActividad + " ]";
+    }
+
+    public Integer getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Integer estatus) {
+        this.estatus = estatus;
+    }
+
+    public Integer getCantidadReal() {
+        return cantidadReal;
+    }
+
+    public void setCantidadReal(Integer cantidadReal) {
+        this.cantidadReal = cantidadReal;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
 }

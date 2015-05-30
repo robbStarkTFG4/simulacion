@@ -31,8 +31,8 @@ public class MpsCandidatesCtrl implements Serializable {
     @PostConstruct
     private void init() {
         System.out.println("init candidates");
-        ordenes = candidatesFacade.findAll(1);
-        ordnesProcesadas = candidatesFacade.findAll2(1);
+        ordenes = candidatesFacade.findAll(4);
+        ordnesProcesadas = candidatesFacade.findAll2(4);
     }
 
     public String goToMps() {

@@ -12,7 +12,7 @@
     <h:body  style="font-size: 90%">
         <ui:composition template="/index.xhtml">
             <ui:define name="content">
-                <h:form>
+                <h:form id="produccion">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8">
@@ -22,13 +22,9 @@
                         <div class="row">
                             <div class="col-md-8" style="font-size: 1.3em ">
                                 <p:tabView>
-                                    <p:tab title="NO Iniciada">
+                                    <p:tab title="NO Iniciada" id="uno">
                                         <p:dataTable var="pd" value="#{rt.produccionActividad}">
-                                            <p:column style="width:28px">
-                                                <p:rowToggler  >
-                                               
-                                                </p:rowToggler>
-                                            </p:column>
+
                                             <p:column headerText="Id">
                                                 <h:outputText value="#{pd.idtblProduccionActividad}" />
                                             </p:column>
@@ -47,18 +43,32 @@
                                                 </p:commandButton>
                                             </p:column>
 
-
-                                            <p:rowExpansion>
-                                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
-                                                    <c:forEach items="#{rt.detalles}" var="df">
-                                                        #{df.nombre}
-                                                    </c:forEach>                                                              
-                                                </p:panelGrid>
-                                            </p:rowExpansion>
                                         </p:dataTable>
-                                    </p:tab>
-                                    <p:tab title="En Curso">
 
+
+                                    </p:tab>
+                                    <p:tab title="En Curso" id="dos">
+                                        <p:dataTable var="pd2" value="#{rt.activadEnCurso}">
+
+                                            <p:column headerText="Id">
+                                                <h:outputText value="#{pd2.idtblProduccionActividad}" />
+                                            </p:column>
+
+                                            <p:column headerText="Fecha">
+                                                <h:outputText value="#{pd2.fecha}" />
+                                            </p:column>
+
+                                            <p:column headerText="Cantidad Producir">
+                                                <h:outputText value="#{pd2.cantidad}" />
+                                            </p:column>
+
+                                            <p:column>
+                                                <p:commandButton value="Capturar reporte" actionListener="#{rt.reporteListener}">
+                                                    <f:attribute value="#{pd2}" name="jobs"/>
+                                                </p:commandButton>
+                                            </p:column>
+
+                                        </p:dataTable>
                                     </p:tab>
                                     <p:tab title="Finalizada">
 
@@ -67,6 +77,47 @@
                             </div>
                         </div>
                     </div>
+                    <p:dialog id="freedom" header="Liberar Material" widgetVar="dlg7" modal="true" height="150" width="300">
+                        <p:dataList value="#{rt.detalles}" var="df" type="ordered">
+                            <ul>
+                                <li style="display: block;font-size: 1.5em">
+                                    <span style="margin-right: 5px"> #{df.nombre}</span>  <span style="color:blue">#{df.cantidad}</span>
+                                </li>
+                            </ul>
+                        </p:dataList>
+                        <p:panelGrid columns="2">
+                            <p:commandButton value="aceptar" actionListener="#{rt.freeMatListener}" onclick="PF('dlg7').close();">
+                            </p:commandButton>
+                            <p:commandButton value="cancelar" onclick="PF('dlg7').close();"/>
+                        </p:panelGrid>
+                    </p:dialog> 
+
+                    <p:dialog id="freedom2" header="Captura Reporte" widgetVar="dlg8" modal="true" height="150" width="300">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <span>Productos Fabricados: </span>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{rt.repomen.cantidad}"/>
+                                </p:column>
+                            </p:row> 
+                            <p:row>
+                                <p:column>
+                                    <span>Comentario: </span>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText value="#{rt.repomen.comentario}"/>
+                                </p:column>
+                            </p:row> 
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <p:commandButton value="aceptar" actionListener="#{rt.guardaReporteListener}" onclick="PF('dlg8').close();">
+                            </p:commandButton>
+                            <p:commandButton value="cancelar" onclick="PF('dlg7').close();"/>
+                        </p:panelGrid>
+                    </p:dialog> 
+
                 </h:form>
             </ui:define>
 

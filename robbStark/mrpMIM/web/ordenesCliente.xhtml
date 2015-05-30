@@ -11,57 +11,58 @@
     <h:body  style="font-size: 90%">
         <ui:composition template="/index.xhtml">
             <ui:define name="content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h2>Demanda Clientes</h2>
+                <h:form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2>Demanda Clientes</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8" style="font-size: 1.3em ">
+                                <p:dataTable var="ord"  paginator="true" rows="3" filteredValue="#{pedidos.filteredList}" value="#{pedidos.ordenesList}">
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{ord.idTblOrdencliente}" />
+                                    </p:column>
+
+                                    <p:column headerText="Cliente" filterBy="#{ord.idTblClientes.nombre}"   filterMatchMode="contains">
+                                        <h:outputText value="#{ord.idTblClientes.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="Producto">
+                                        <h:outputText value="#{ord.tblProductoidTblProducto.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="P/U">
+                                        <h:outputText value="#{ord.tblProductoidTblProducto.precio}" />
+                                    </p:column>
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="#{ord.cantidad}" />
+                                    </p:column>
+
+                                    <p:column headerText="Monto">
+                                        <h:outputText value="#{ord.monto}" />
+                                    </p:column>
+
+                                    <p:column headerText="Fecha Entrega">
+                                        <h:outputText value="#{ord.fechadeentrega}" />
+                                    </p:column>
+                                    <p:column style="width: 8%">
+                                        <p:commandButton icon="ui-icon-search" actionListener="#{pedidos.shoProductImageListener}">
+                                            <f:attribute name="producto" value="#{ord.tblProductoidTblProducto}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column style="width: 8%">
+                                        <p:commandButton icon="ui-icon-arrowthick-2-ne-sw" action="#{pedidos.moveToDetail}">
+                                            <f:setPropertyActionListener target="#{ordHolder.currentClientOrder}" value="#{ord}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8" style="font-size: 1.3em ">
-                            <p:dataTable var="ord"  paginator="true" rows="3" filteredValue="#{pedidos.filteredList}" value="#{pedidos.ordenesList}">
-                                <p:column headerText="Id">
-                                    <h:outputText value="#{ord.idTblOrdencliente}" />
-                                </p:column>
-
-                                <p:column headerText="Cliente" filterBy="#{ord.idTblClientes.nombre}"   filterMatchMode="contains">
-                                    <h:outputText value="#{ord.idTblClientes.nombre}" />
-                                </p:column>
-
-                                <p:column headerText="Producto">
-                                    <h:outputText value="#{ord.tblProductoidTblProducto.nombre}" />
-                                </p:column>
-
-                                <p:column headerText="P/U">
-                                    <h:outputText value="#{ord.tblProductoidTblProducto.precio}" />
-                                </p:column>
-
-                                <p:column headerText="Cantidad">
-                                    <h:outputText value="#{ord.cantidad}" />
-                                </p:column>
-
-                                <p:column headerText="Monto">
-                                    <h:outputText value="#{ord.monto}" />
-                                </p:column>
-
-                                <p:column headerText="Fecha Entrega">
-                                    <h:outputText value="#{ord.fechadeentrega}" />
-                                </p:column>
-                                <p:column style="width: 8%">
-                                    <p:commandButton icon="ui-icon-search" actionListener="#{pedidos.shoProductImageListener}">
-                                        <f:attribute name="producto" value="#{ord.tblProductoidTblProducto}"/>
-                                    </p:commandButton>
-                                </p:column>
-                                <p:column style="width: 8%">
-                                    <p:commandButton icon="ui-icon-arrowthick-2-ne-sw" action="#{pedidos.moveToDetail}">
-                                        <f:setPropertyActionListener target="#{ordHolder.currentClientOrder}" value="#{ord}"/>
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
-                        </div>
-                    </div>
-                </div>
-
+                </h:form>
             </ui:define>
 
             <ui:define name="right">

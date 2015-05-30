@@ -25,7 +25,7 @@
                         </div>
                         <div class="row" style="margin-top: 7px;font-size: 1.7em ">
                             <div class="col-md-8">
-                                Acumulados:  <span><p:outputLabel style="margin-right: 8px;color: #{scheduleMps.colorText}" id="ctf" value="#{scheduleMps.hi}" /></span> Objetivo: <span><p:outputLabel  style="color: green" id="flag" value="#{scheduleMps.obj}" /></span>
+                                Acumulados:  <span><p:outputLabel style="margin-right: 8px;color: #{scheduleMps.colorText}" id="ctf" value="#{scheduleMps.hi}" /></span> Objetivo: <span><p:outputLabel  style="color: green" id="flag" value="#{scheduleMps.obj}" /></span> Capcidad <span><p:outputLabel  style="color: #282e36" value="#{scheduleMps.capacidadDia}" /></span>
                             </div>
                         </div>
                         <div class="row">
@@ -49,21 +49,18 @@
                     <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
                         <h:panelGrid id="eventDetails" columns="2">
                             <h:outputLabel for="title" value="Cantidad" />
-                            <p:inputText id="title" value="#{scheduleMps.event.title}"  >
+                            <p:inputText id="title" value="#{scheduleMps.event.title}" validator="cap"  >
                                 <f:validateRegex pattern="^[0-9]*$"/>
                             </p:inputText>
 
 
 
                             <h:outputLabel for="from" value="From:" />
-                            <p:inputMask id="from" value="#{scheduleMps.event.startDate}" mask="99/99/9999">
-                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-8"/>
-                            </p:inputMask>
+                            <p:calendar id="from" value="#{scheduleMps.event.startDate}" pattern="MM/dd/yyyy HH:mm:ss"  timeZone="GMT-8" />
+
 
                             <h:outputLabel for="to" value="To:" />
-                            <p:inputMask id="to" value="#{scheduleMps.event.endDate}" mask="99/99/9999">
-                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-8"/>
-                            </p:inputMask>
+                            <p:calendar id="to" value="#{scheduleMps.event.endDate}" pattern="MM/dd/yyyy HH:mm:ss"  timeZone="GMT-8" />
 
                             <p:commandButton  value="eliminar" actionListener="#{scheduleMps.deleteEvent}" />
                             <p:commandButton id="addButton" value="guardar" actionListener="#{scheduleMps.addEvent}" >

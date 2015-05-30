@@ -44,7 +44,7 @@ public class TblAlmacen implements Serializable {
     private Integer cantidad;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 600)
+    @Size(min = 1, max = 1500)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "tbl_almacen_actividad_idtbl_almacen_actividad", referencedColumnName = "idtbl_almacen_actividad")

@@ -39,7 +39,7 @@ public class ProductionReportCtrl implements Serializable {
     @PostConstruct
     private void init() {
         System.out.println("production report ignited");
-        productsList = clienteFacade.findAll2(3);
+        productsList = clienteFacade.findAll2(5);
     }
 
     public String redirect(Tblordencliente pr) {

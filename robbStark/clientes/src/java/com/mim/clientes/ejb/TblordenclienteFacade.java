@@ -33,7 +33,7 @@ public class TblordenclienteFacade extends AbstractFacade<Tblordencliente> {
     }
 
     public List<Tblordencliente> findAll(String usuario) {
-        TypedQuery<Tblordencliente> query = em.createQuery("SELECT c FROM Tblordencliente c WHERE c.idTblClientes.usuario =:usr", Tblordencliente.class);
+        TypedQuery<Tblordencliente> query = em.createQuery("SELECT c FROM Tblordencliente c WHERE c.idTblClientes.usuario =:usr  AND c.estatus != 8", Tblordencliente.class);
         query.setParameter("usr", usuario);
         try {
             return query.getResultList();
@@ -43,4 +43,8 @@ public class TblordenclienteFacade extends AbstractFacade<Tblordencliente> {
 
     }
 
+    public void changeStatus(Integer idTblOrdencliente, int i) {
+        Tblordencliente res = this.find(idTblOrdencliente);
+        res.setEstatus(i);
+    }
 }

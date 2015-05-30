@@ -10,12 +10,14 @@ import com.mim.mrp.ejb.TblOrdencompraFacade;
 import com.mim.mrp.ejb.TblPlanProducctionFacade;
 import com.mim.mrp.ejb.TblProduccionActividadFacade;
 import com.mim.mrp.ejb.TblordenclienteFacade;
+import com.mim.mrp.ejb.TblrecetaFacade;
 import com.mim.mrp.ejb.TblusuariosFacade;
 import com.mim.mrp.models.TblOrdenTrabajo;
 import com.mim.mrp.models.TblOrdencompra;
 import com.mim.mrp.models.TblPlanProducction;
 import com.mim.mrp.models.TblProduccionActividad;
 import com.mim.mrp.models.Tblordencliente;
+import com.mim.mrp.models.Tblreceta;
 import com.mim.mrp.models.Tblusuarios;
 import com.mim.mrp.util.mps.MPSEvent;
 import com.mim.mrp.util.mps.ProductionEvent;
@@ -65,6 +67,12 @@ public class MpsScheduleCtrl implements Serializable {
     @EJB
     TblProduccionActividadFacade actividadFacade;
 
+    @EJB
+    TblrecetaFacade recetaFacade;
+
+    @EJB
+    TblordenclienteFacade clienteFacade;
+
     @Inject
     OrdersHolder orderHolder;
 
@@ -82,6 +90,8 @@ public class MpsScheduleCtrl implements Serializable {
     private TblOrdenTrabajo trabajo = new TblOrdenTrabajo();
     private TblPlanProducction produccion = new TblPlanProducction();
     private List<TblProduccionActividad> mpsActivity = new ArrayList<>();
+    private int capacidadDia = 0;
+    private Tblreceta receta;
 
     @PostConstruct
     private void init() {
@@ -98,6 +108,32 @@ public class MpsScheduleCtrl implements Serializable {
         trabajo.setEstatus(0);
 
         produccion.setTblOrdenclienteidTblOrdencliente(ordenCliente);
+
+        receta = recetaFacade.find(comprasList.get(0).getReceta());
+        Double tiempoFabricasion = receta.getTiempo();
+        // 1 day= 12hrs
+        System.out.println("tiempo: " + tiempoFabricasion + " unidad: " + receta.getUnidad());
+        double time = 0;
+        switch (receta.getUnidad()) {
+            case "sd":
+                time = 3600 * 12;
+                capacidadDia = (int) (time / tiempoFabricasion);
+                break;
+            case "min":
+                time = 60 * 12;
+                capacidadDia = (int) (time / tiempoFabricasion);
+                break;
+            case "hr":
+                time = 12;
+                capacidadDia = (int) (time / tiempoFabricasion);
+                break;
+            case "dy":
+                break;
+            case "meses":
+                break;
+        }
+
+        System.out.println("Capacidad diaria: " + capacidadDia);
 
         initModel(comprasList, ordenCliente);
     }
@@ -267,6 +303,7 @@ public class MpsScheduleCtrl implements Serializable {
                 act.setTblPlanProducctionIdtblPlanProducction(planFacade.find(id));
                 actividadFacade.create(act);
             }
+            clienteFacade.changeStatus(ordenCliente.getIdTblOrdencliente(), 5);
         }
         return "estatusCompras?faces-redirect=true";
     }
@@ -310,6 +347,14 @@ public class MpsScheduleCtrl implements Serializable {
 
     public void setColorText(String colorText) {
         this.colorText = colorText;
+    }
+
+    public int getCapacidadDia() {
+        return capacidadDia;
+    }
+
+    public void setCapacidadDia(int capacidadDia) {
+        this.capacidadDia = capacidadDia;
     }
 
 }

@@ -13,6 +13,7 @@ import com.mim.mrp.ejb.TblordenclienteFacade;
 import com.mim.mrp.models.TblAlmacen;
 import com.mim.mrp.models.TblLocasion;
 import com.mim.mrp.models.TblOrdencompra;
+import com.mim.mrp.models.Tblordencliente;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -57,12 +58,16 @@ public class InspectCtrl implements Serializable {
         TblAlmacen alm = new TblAlmacen();
         alm.setCantidad(orden.getDemanda());
         alm.setDescripcion("material nombre: " + orden.getTblmaterial().getNombre() + " cantidad: " + orden.getDemanda() + " proveedor: " + orden.getTblProveedoresIdtblProveedores().getEmpresa());
-        alm.setTblAlmacenActividadIdtblAlmacenActividad(actividadFacade.find(3));
-        alm.setTblLocasionIdtblLocasion(locasionFacade.createLocasion(new TblLocasion(String.valueOf(orden.getTblordencliente().getIdTblOrdencliente()))));
+        alm.setTblAlmacenActividadIdtblAlmacenActividad(actividadFacade.find(1));
+        alm.setTblLocasionIdtblLocasion(locasionFacade.find(5));
         alm.setTblMaterialidTblMateria(orden.getTblmaterial());
-        alm.setTblOrdenclienteidTblOrdencliente(orden.getTblordencliente());
 
-        almaFacade.create(alm);
+        //System.out.println("EL IDE DE LA ORDEN DEL CLIENTE ES: " + orden.getTblordencliente().getIdTblOrdencliente());
+        //Tblordencliente temp = clienteFacade.findClientOrder(orden.getTblOrdencompraPK().getIdtblordenCompra());
+        //temp.getCantidad();
+
+        //alm.setTblOrdenclienteidTblOrdencliente(temp);
+        almaFacade.create2(alm, orden.getTblOrdencompraPK());
         compraFacade.updateStatus(orden.getTblOrdencompraPK(), 3);
         ordenes.remove(orden);
 
