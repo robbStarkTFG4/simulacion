@@ -11,10 +11,6 @@ import javafx.scene.Node;
 import javafx.util.Duration;
 
 
-/* 
-    Created on : Sep 13, 2014, 8:45:48 AM
-    Author     : herudi-pc
-*/
 
 public class FadeOutUpTransition extends configAnimasi {
     /**

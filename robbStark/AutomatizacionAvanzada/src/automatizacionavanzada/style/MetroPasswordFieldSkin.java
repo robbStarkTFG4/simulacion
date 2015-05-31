@@ -3,9 +3,7 @@ package automatizacionavanzada.style;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-/**
- * Created by pedro_000 on 12/15/13.
- */
+
 public class MetroPasswordFieldSkin extends TextFieldWithButtonSkin{
     private boolean shouldMaskText = true;
 
