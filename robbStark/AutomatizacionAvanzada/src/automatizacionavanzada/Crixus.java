@@ -30,28 +30,32 @@ public class Crixus {
 
     public DashBoardController dash;
 
+    private MultiThreadedServer tcpServer;
     private Crixus() {
         init();
     }
 
     private void init() {
 
-        //command = new WritableCommands();
-        //read = new ReadOnlyCommands();
+        System.out.println("Arrancando hilos......");
+        
+        command = new WritableCommands();
+        read = new ReadOnlyCommands();
 
-        //System.out.println("Arrancando hilos......");
+        modbus = new ModBus();
+        arya = new Thread(modbus);
+        arya.start();
 
-        //modbus = new ModBus();
-        //arya = new Thread(modbus);
-        //arya.start();
-
+        //tcpServer = new MultiThreadedServer(9000);
+        //new Thread(tcpServer).start();
+        
         //blueServer = new BlueServer();
         //Thread blue = new Thread(blueServer);
         //blue.start();
         
-        colorSensor = new ColorSensor();
-        Thread sensor = new Thread(colorSensor);
-        sensor.start();
+        //colorSensor = new ColorSensor();
+        //Thread sensor = new Thread(colorSensor);
+        //sensor.start();
     }
 
     public static Crixus getInstance() {

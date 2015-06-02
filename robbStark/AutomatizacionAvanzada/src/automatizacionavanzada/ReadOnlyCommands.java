@@ -17,22 +17,22 @@ import javafx.beans.value.ObservableValue;
  * @author NORE
  */
 public class ReadOnlyCommands {
-    
+
     public SimpleBooleanProperty[] states = new SimpleBooleanProperty[2];
-    
+
     public ReadOnlyCommands() {
         for (int i = 0; i < states.length; i++) {
             int lis = i;
             states[i] = new SimpleBooleanProperty(false);
             states[i].addListener(new ChangeListener<Boolean>() {
-                
+
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     switch (lis) {
                         case 0:
                             //   System.out.println("LISTENER " + lis);
                             Platform.runLater(new Runnable() {
-                                
+
                                 @Override
                                 public void run() {
                                     try {
@@ -41,42 +41,45 @@ public class ReadOnlyCommands {
                                          } else {
                                          System.out.println("desactivado");
                                          }*/
-                                        
+
                                         if (!oldValue && newValue) { // cambiar a property
                                             System.out.println("increase box count");
                                             Crixus.getInstance().getDashBoiardInstance().setCurrentAmount(Crixus.getInstance().getDashBoiardInstance().getCurrentAmount() + 1);
                                             Crixus.getInstance().getDashBoiardInstance().getBoxCount().setText("Procesadas: " + String.valueOf(Crixus.getInstance().getDashBoiardInstance().getCurrentAmount()));
+                                            if (Crixus.getInstance().getDashBoiardInstance().getCurrentAmount() == Crixus.getInstance().getDashBoiardInstance().getNumber()) {
+                                                Crixus.getInstance().getDashBoiardInstance().stopProcces();
+                                            }
                                         }
                                     } catch (Exception e) {
-                                        
+
                                     }
                                 }
                             });
-                            
+
                             break;
                         case 1:
                             //     System.out.println("LISTENER " + lis);
                             Platform.runLater(new Runnable() {
-                                
+
                                 @Override
                                 public void run() {
                                     try {
                                         //Crixus.getInstance().getGemma().piston2.setVastagoState(newValue);
                                     } catch (Exception e) {
-                                        
+
                                     }
                                 }
                             });
                             break;
                     }
                 }
-                
+
             });
         }
     }
-    
+
     public void readRegisters() {
-        
+
         try {
             if (Crixus.getInstance().getModbus().getMaster().isInitialized()) {
                 boolean[] vals = Crixus.getInstance().getModbus().readDiscrete(
@@ -94,9 +97,9 @@ public class ReadOnlyCommands {
                 System.out.println("CONEXION NO ESTABLECIDA");
             }
         } catch (Exception e) {
-            
+
         }
-        
+
     }
-    
+
 }

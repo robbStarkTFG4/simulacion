@@ -78,7 +78,7 @@ public class ModBus implements Runnable {
         ModbusFactory modbusFactory = new ModbusFactory();
 
         master = modbusFactory.createRtuMaster(serialParameters);
-        master.setTimeout(5000);
+        master.setTimeout(50000);
 
         try {
             master.init();
@@ -267,7 +267,7 @@ public class ModBus implements Runnable {
                 //lee comandos
                 Crixus.getInstance().getRead().readRegisters();
                 estados = readDiscreteInputTest(SLAVE_ADDRESS, i, i0);
-                //   System.out.println("BLOQUE QUE LEE ESTADOS DE LOS PISTONES");
+                System.out.println("BLOQUE QUE LEE ESTADOS DE LOS PISTONES");
             }
         }
     }

@@ -153,15 +153,19 @@ public class DashBoardController implements Initializable {
                 Crixus.getInstance().getModbus().writeCommandThread(WritableCommands.START, Boolean.TRUE);
                 startBtn.setText("STOP");
             } else {
-                stopwatch.stop();
-                estadoStart = false;
-                Crixus.getInstance().getModbus().writeCommandThread(WritableCommands.START, Boolean.FALSE);
-                startBtn.setText("START");
+                stopProcces();
             }
         } else {
             System.out.println("inserta datos");
         }
 
+    }
+
+    public void stopProcces() {
+        stopwatch.stop();
+        estadoStart = false;
+        Crixus.getInstance().getModbus().writeCommandThread(WritableCommands.START, Boolean.FALSE);
+        startBtn.setText("START");
     }
 
     @FXML
@@ -214,6 +218,14 @@ public class DashBoardController implements Initializable {
 
     public void setCurrentAmount(int currentAmount) {
         this.currentAmount = currentAmount;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
 }
